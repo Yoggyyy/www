@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Track</title>
+</head>
+<body>
+    <h2>Side online KebabFood</h2>
+    
+    <form action="mailto:pedidos@foofoods.com" method="post" autocomplete="on">
+        <label for="name" required placeholder="Name">Name:</label>
+        <input type="text" id="name" name="user_name" required>
+        <br>
+
+        <label for="email" required placeholder="Email">Email:</label>
+        <input type="email" id="email" name="user_mail" required>
+        <br>
+
+        <label for="text" required maxlength="9" placeholder="Enter your phone number">Phone:</label>
+        <input type="number" id="telephon" name="user_number" required>
+        <br>
+        
+        <div> 
+            <ul>
+                <li>
+                    <label for="text" required placeholder="Nº of kebabs">Nº of kebabsChiken</label>
+                    <input type="number" id="nKebabsCh" value="0" max="10">
+                </li>
+                <li>
+                    <label for="text" required placeholder="Nº of kebabs">Nº of kebabsBeef</label>
+                    <input type="number" id="nKebabsCh" value="0" max="10">
+                </li>
+                <li>
+                    <label for="text" required placeholder="Nº of kebabs">Nº of kebabsMixed</label>
+                    <input type="number" id="nKebabsCh" value="0" max="10">
+                </li>
+                <li>
+                    <label for="text" required placeholder="Nº of kebabs">Nº of kebabsVegetable</label>
+                    <input type="number" id="nKebabsCh" value="0"  max="10">
+                </li>
+            </ul>
+        </div>
+        <div>Level of Spicy</div>
+        <input type="range" id="barra" value="0" min="0" max="10" oninput="valor_barra.value= barra.value " />
+        <output id="valor_barra" ></output>
+    
+    </form>
+
+</body>
+</html>

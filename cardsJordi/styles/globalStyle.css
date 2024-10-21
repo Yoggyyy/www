@@ -1,0 +1,201 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #eee9dd; 
+}
+
+h1, h3, h5 {
+    text-align: center;
+}
+
+section {
+    font-family: Arial, sans-serif;
+    font-weight: bold; 
+    font-size: 1.2em;
+    margin: 20px;
+    padding: 15px; 
+    border-radius: 5px; 
+}
+
+/* Estilos de la navegación */
+header {
+    background-color: #6c3b2a; 
+}
+
+nav {
+    display: flex;
+    justify-content: center; 
+    padding: 10px;
+}
+
+nav ul {
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+    display: flex; 
+}
+
+nav li {
+    margin: 0 2px; 
+}
+
+nav a {
+    text-decoration: none; 
+    color: #ffffff; 
+    padding: 10px 15px; 
+    background-color: #6c3b2a; 
+    border-radius: 4px; 
+}
+
+nav a:hover {
+    background-color: #986800; 
+}
+
+.logo {
+    display: block; 
+    margin: 0 auto; 
+    justify-content: center;
+    width: auto; 
+    max-width: 80%; 
+    height: auto;
+}
+
+
+/* Estilos para las mesas de juego */
+.mesaDeJuego1 {
+    border: 3px solid #000000; 
+    padding: 20px; 
+    margin: 20px auto; 
+    width: 80%; 
+    background-color: #f4f6f1; 
+}
+
+.mesaDeJuego2 {
+    border: 3px solid #000000; 
+    padding: 20px;
+    margin: 20px auto; 
+    width: 80%; 
+    background-color: #f4f6f1; 
+}
+
+.players {
+    border: 2px solid black;
+    padding: 20px; 
+    text-align: center;
+}
+
+
+/* Estilos para las cartas */
+img {
+    border: 3px solid transparent; 
+    margin: 10px; 
+}
+
+img.win {
+    border-color: #57bd9e;
+    margin: 10px;
+}
+
+img.draw {
+    border-color: #c3b21e;
+    margin: 10px;
+}
+
+img.lose {
+    border-color: #d72446;
+    margin: 10px;
+}
+
+/* Estilos del footer */
+.footer {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    background-color: #35382a; 
+    color: #ffffff; 
+    padding: 20px; 
+}
+
+.Name {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    margin-bottom: 20px; 
+}
+
+.Name img {
+    border-radius: 50%;
+    width: 100px; 
+    height: auto; 
+    margin-top: 10px; 
+}
+
+.wrap-footer {
+    display: flex;
+    justify-content: space-between; 
+    width: 100%; 
+}
+
+.rrss {
+    text-align: left; 
+}
+
+.rrss h5 {
+    text-align: center;
+}
+
+.rrss ul {
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+    display: flex; 
+}
+
+.rrss li {
+    margin: 5px 0; 
+    list-style: none; 
+}
+
+.rrss img {
+    width: 40px; 
+    height: auto; 
+}
+
+/* Estilos para los derechos de autor */
+.footer-creds {
+    display: flex;
+    justify-content: space-between; 
+    width: 100%; 
+    margin-top: 20px; 
+}
+
+.copy-creds {
+    text-align: left; 
+    list-style: none;
+    display: inline;
+}
+
+
+.legal-creds{
+    display: inline;
+
+}
+
+.legal-creds ul {
+    list-style: none; 
+    padding: 0;
+    margin: 0; 
+    display: inline;
+}
+
+.legal-creds li {
+    list-style: none;
+    display: inline; 
+    margin-left: 15px; 
+}
+a {
+    color: #ffffff;
+}
+
