@@ -1,5 +1,5 @@
 <?php
-function addWatermark($foto_name, $dni) {
+
     // Cargar la marca de agua desde el archivo PNG y redimensionarla
     $watermark = imagecreatefrompng('images/marca.png');
     $watermark = imagescale($watermark, 50);
@@ -14,16 +14,6 @@ function addWatermark($foto_name, $dni) {
 
     // Aplicar un filtro a la marca de agua para cambiar su opacidad
     imagefilter($watermark, IMG_FILTER_COLORIZE, 0, 0, 0, 60);
-
-    // Detectar el tipo de imagen (PNG o JPEG)
-    $imageType = mime_content_type($foto_name);
-    if ($imageType == 'image/png') {
-        $image = imagecreatefrompng($foto_name);
-    } elseif ($imageType == 'image/jpeg') {
-        $image = imagecreatefromjpeg($foto_name);
-    } else {
-        die("Formato de imagen no soportado");
-    }
 
     // Obtener dimensiones de la imagen del candidato
     $imageWidth = imagesx($image);
@@ -50,5 +40,5 @@ function addWatermark($foto_name, $dni) {
     // Liberar recursos
     imagedestroy($image);
     imagedestroy($watermark);
-}
+
 ?>

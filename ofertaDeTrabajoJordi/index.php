@@ -1,6 +1,4 @@
 <?php
-include 'watermark.php';
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Limpiar datos
     foreach ($_POST as $key => $value) {
@@ -86,11 +84,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
         // Si no hay errores en lo anterior se comprueba si el archivo es uno
         // recién subido al servidor (medida de seguridad)
-    
+        
         if (is_uploaded_file($_FILES['photo']['tmp_name']) === true) {
             // En ocasiones ya existe el archivo para no sobrescribirlo hacemos
             // la siguiente comprobacion
-            $nuevaRuta = $_SERVER['DOCUMENT_ROOT'] . '/images/candidates/' . $_FILES['photo']['name'];
+            $nuevaRuta = $_SERVER['DOCUMENT_ROOT'] . '/images/candidates/' . $_POST['dni'] . '.jpg';
             if (is_file($nuevaRuta) === true) {
                 $errors['photo'] = 'Ya existe un archivo con el mismo nombre';
             }
@@ -100,56 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $errors['photo'] = 'No se puede mover el fichero a su destino';
             }
             
-            // WATERMARK
-            $watermark = imagecreatefrompng('images/marca.png');
-            $watermark = imagescale($watermark, 50);
-        
-            // Configurar el blending para la transparencia
-            imagealphablending($watermark, false);
-            imagesavealpha($watermark, true);
-        
-            // Obtener dimensiones de la marca de agua
-            $watermarkWidth = imagesx($watermark);
-            $watermarkHeight = imagesy($watermark);
-        
-            // Aplicar un filtro a la marca de agua para cambiar su opacidad
-            imagefilter($watermark, IMG_FILTER_COLORIZE, 0, 0, 0, 60);
-        
-            // Detectar el tipo de imagen (PNG o JPEG)
-            $imageType = mime_content_type($nuevaRuta);
-            if ($imageType == 'image/png') {
-                $image = imagecreatefrompng($nuevaRuta);
-            } elseif ($imageType == 'image/jpeg') {
-                $image = imagecreatefromjpeg($nuevaRuta);
-            } else {
-                die("Formato de imagen no soportado");
-            }
-        
-            // Obtener dimensiones de la imagen del candidato
-            $imageWidth = imagesx($image);
-            $imageHeight = imagesy($image);
-        
-            // Calcular la posición de la marca de agua (colocarla en la esquina inferior derecha)
-            $xPosition = $imageWidth - $watermarkWidth - 10; // 10 píxeles desde el borde derecho
-            $yPosition = $imageHeight - $watermarkHeight - 10; // 10 píxeles desde el borde inferior
-        
-            // Añadir la marca de agua sobre la imagen del candidato
-            imagecopy($image, $watermark, $xPosition, $yPosition, 0, 0, $watermarkWidth, $watermarkHeight);
-        
-            // Redimensionar la imagen del candidato al 50%
-            $newWidth = $imageWidth / 2;
-            $newHeight = $imageHeight / 2;
-            $image = imagescale($image, $newWidth, $newHeight);
-        
-            // Definir el nombre del archivo final con la marca de agua
-            $outputFile = 'images/candidates/candidatesBrand/' . $_POST['dni'] . '-thumbnail.png';
-        
-            // Guardar la imagen con la marca de agua en formato PNG
-            imagepng($image, $outputFile);
-        
-            // Liberar recursos
-            imagedestroy($image);
-            imagedestroy($watermark);
+            
         } 
 
         //Comprueb si se produjo algun error al subir el archivo cv 
@@ -204,13 +153,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         move_uploaded_file($_FILES['cv']['tmp_name'], $cv_name);
 
         // Guardar la foto en la carpeta 'images/candidates' con el nombre dni.jpg
-        $foto_name = $_SERVER['DOCUMENT_ROOT'] . 'images/candidates/' . $_POST['dni'] . '.jpg';
+        $foto_name = $_SERVER['DOCUMENT_ROOT'] . '/images/candidates/' . $_POST['dni'] . '.jpg';
         move_uploaded_file($_FILES['foto']['tmp_name'], $foto_name);
 
-        
 
-        // FALTA LLAMAR A WATERMARK.PHP
-        $watermark = imagecreatefrompng('images/marca.png');
+        $watermark = imagecreatefrompng('/images/marca.png');
         $watermark = imagescale($watermark, 50);
 
         // Configurar el blending para la transparencia
@@ -223,16 +170,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Aplicar un filtro a la marca de agua para cambiar su opacidad
         imagefilter($watermark, IMG_FILTER_COLORIZE, 0, 0, 0, 60);
-
-        // Detectar el tipo de imagen (PNG o JPEG)
-        $imageType = mime_content_type($foto_name);
-        if ($imageType == 'image/png') {
-            $image = imagecreatefrompng($foto_name);
-        } elseif ($imageType == 'image/jpeg') {
-            $image = imagecreatefromjpeg($foto_name);
-        } else {
-            die("Formato de imagen no soportado");
-        }
 
         // Obtener dimensiones de la imagen del candidato
         $imageWidth = imagesx($image);
@@ -251,7 +188,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $image = imagescale($image, $newWidth, $newHeight);
 
         // Definir el nombre del archivo final con la marca de agua
-        $outputFile = 'images/candidates/candidatesBrand/' . $dni . '-thumbnail.png';
+        $outputFile =  $dni . '-thumbnail.png';
 
         // Guardar la imagen con la marca de agua en formato PNG
         imagepng($image, $outputFile);
