@@ -1,5 +1,5 @@
 <?php
-require_once('User.inc.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . "/includes/User.inc.php");
 
 $users = [
     new User("HomerSimpson", "donuts", "homer@springfield.com"),

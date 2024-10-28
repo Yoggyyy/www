@@ -4,7 +4,8 @@ $errors = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Limpiar datos
     foreach ($_POST as $key => $value) {
-        $_POST[$key] = trim($value);
+        //Correcion a la que se refiere Alex
+        $_POST[$key] = htmlspecialchars(trim($value));
     }
 
     // Expresiones regulares
