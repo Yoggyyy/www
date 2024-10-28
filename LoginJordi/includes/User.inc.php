@@ -53,13 +53,11 @@ class User {
      */
     public function login(string $password): bool {
         if ($this->logged) {
-            $errors['user']= 'El usuario ya existe';
             return false;
         } elseif ($this->password === $password) {
             $this->logged = true;
             return true;
         } else {
-            $errors['password']= 'La contraseña no coincide';
             return false;
         }
     }

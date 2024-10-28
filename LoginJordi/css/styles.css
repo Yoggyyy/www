@@ -1,3 +1,7 @@
+/* Estilo para el enlace de volver*/
+.return {
+    color: blue;
+}
 /* Estilos del footer */
 .footer {
     display: flex;
@@ -85,6 +89,7 @@
     display: inline; 
     margin-left: 15px; 
 }
-a {
+footer a{
     color: #ffffff;
+    text-decoration: none;
 }

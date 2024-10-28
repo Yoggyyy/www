@@ -1,17 +1,32 @@
 <?php
-// se que debe empezar por ruta absoluta pero si nos no funciona-.
+/**
+ * Archivo principal para el procesamiento de inicio de sesión.
+ * Verifica el envío del formulario, valida el usuario y contraseña,
+ * y muestra un mensaje de éxito o errores según el resultado.
+ * @author Jordi
+ * @version 0.0.1
+ */
+
+// Ruta absoluta para incluir el archivo de lista de usuarios
 require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/usersList.inc.php');
-$exito = false;
+
+$exito = false; // Indicador de éxito del login
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Limpiar datos
+    /**
+     * Procesa el formulario enviado por método POST
+     * y limpia los datos de entrada.
+     */
+    
+    // Limpia cada campo de $_POST eliminando espacios en blanco
     foreach ($_POST as $key => $value) {
-        
         $_POST[$key] = trim($value);
     }
-    
 
+    // Busca si el usuario existe en la lista de usuarios
     $user = userExists($_POST['user'], $users);
     if ($user != null) {
+        // Verifica la contraseña del usuario
         if ($user->login($_POST['password'])) {
             $exito = true;
         } else {
@@ -21,11 +36,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors['user'] = 'Usuario no registrado';
     }
 
+    // Verifica si no hay errores y marca éxito en el inicio de sesión
     if (empty($errors)) {
         $exito = true; 
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -38,18 +53,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 <?php
     if ($exito) {
-        // Si el formulario ha sido enviado correctamente, mostramos un mensaje de éxito
+        /**
+         * Muestra un mensaje de éxito y detalles del usuario
+         * si el login ha sido exitoso.
+         */
         echo '<span>Login Correcto.</span><br>';
-        // Mostramos los datos del usuario con toString si está disponible
-        echo '<span>' . $user->__toString() . '</span>';
-        echo '<br>';
-        echo '<a href="index.php">Volver al formulario</a>';
+        echo '<span>' . $user->__toString() . '</span><br>';
+        echo '<a class="return" href="index.php">Volver al formulario</a>';
     } else {
-        // Si no ha sido exitoso, mostramos el formulario con los campos ya introducidos y los errores
-        /*
-        <?php echo'...'; ?> es lo mismo que <?= ... ?>, mirar de hacer snipset d esto
-        */
-        // El operador `??` devuelve el primer valor no null o vacío en la secuencia que se le proporciona.
+        /**
+         * Muestra el formulario de inicio de sesión con los datos
+         * previamente ingresados y mensajes de error si existen.
+         */
 ?>
     <form action="#" method="post">
         Usuario: <input type="text" name="user" value="<?= $_POST['user'] ?? '' ?>"><br>
@@ -62,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php
     }
 ?>
-  
+    <br>
     <footer class="footer">
         <div class="Name">
             <span>Jordi Santos Torres</span>
