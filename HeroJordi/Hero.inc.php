@@ -123,12 +123,14 @@ class Hero {
      * @return int Defensa restante después de aplicar el daño.
      */
 
-    public function defense(int $damage): int 
-    {
-        $totalDefense = $this->baseDefense + ($this->armor ? $this->armor->defense : 0);
-        $result = $totalDefense - $damage;
-        return max($result, 0);
-    }
+     public function defense(int $damage): int 
+     {
+         $totalDefense = $this->baseDefense + ($this->armor ? $this->armor->defense : 0);
+         $realDamage = max($damage - $totalDefense, 0);
+         $this->health -= $realDamage;
+         return $realDamage;
+     }
+     
 
     /**
      * Usa la poción con mayor salud disponible en el inventario del héroe.
@@ -144,6 +146,7 @@ class Hero {
             // array_shift quita el primer valor del array y lo devuelve.
             $highestPotion = array_shift($this->potions);
             $this->health += $highestPotion->health;
+            return "Poción usada: +{$highestPotion->health} salud";
         }
 
         return 'No tienes pociones';
@@ -198,11 +201,11 @@ class Hero {
      */
     public function addPotion(Potion $potion) 
     {
-        if (count($this->potions) < 5) {
+        if (count($this->potions) < 2) {
             $this->potions[] = $potion;
             echo 'Poción añadida: ' . $potion;
         } else {
-            echo 'Ya tienes el máximo de 5 pociones.';
+            echo 'Ya tienes el máximo de 2 pociones.';
         }
     }
 }

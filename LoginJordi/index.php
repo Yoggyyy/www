@@ -101,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="footer-creds">
             <div class="copy-creds">
-                <p>©2022 · Todos los derechos reservados.</p>
+                <p>©2024 · Todos los derechos reservados.</p>
             </div>
             <div class="legal-creds">
                 <ul>
