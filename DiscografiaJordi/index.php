@@ -21,19 +21,19 @@ $busqueda = isset($_POST['search']) ? $_POST['search'] : '';
 
 if ($busqueda == '') {
     // Mostrar todos los grupos en orden alfabético ascendente
-    $query = 'SELECT codigo, nombre FROM grupos ORDER BY nombre ASC';
-    $stmt = $connection->prepare($query);
+    $query = "SELECT id, name, photo FROM groups ORDER BY name ASC;";
+    $preparada = $connection->prepare($query);
 } else {
     // Mostrar grupos que contengan el término de búsqueda en el nombre
-    $query = 'SELECT codigo, nombre FROM grupos WHERE nombre LIKE :busqueda ORDER BY nombre ASC';
-    $stmt = $connection->prepare($query);
+    $query = "SELECT id, name, photo FROM groups WHERE name LIKE :busqueda ORDER BY name ASC;";
+    $preparada = $connection->prepare($query);
     $busqueda_param = '%' . $busqueda . '%';
-    $stmt->bindParam(':busqueda', $busqueda_param, PDO::PARAM_STR);
+    $preparada->bindParam(':busqueda', $busqueda_param, PDO::PARAM_STR);
 }
 
 try {
-    $stmt->execute();
-    $grupos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $preparada->execute();
+    $grupos = $preparada->fetchAll(PDO::FETCH_OBJ);
 } catch (PDOException $e) {
     echo 'Error en la consulta: ' . $e->getMessage();
 }
@@ -47,7 +47,7 @@ try {
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="/styles/style.css">
+	<link rel="stylesheet" href="/css/styles.css">
 	<title>Discografía</title>
 </head>
 
@@ -66,16 +66,13 @@ try {
 	<h2>Grupos:</h2>
 	
 	<?php
-    if (count($grupos) > 0) {
         foreach ($grupos as $grupo) {
             echo '<div>';
-            echo '<p>' . htmlspecialchars($grupo['name']) . '</p>';
-            echo '<img src="/images/' . htmlspecialchars($grupo['codigo']) . '.jpg" alt="Foto de ' . htmlspecialchars($grupo['name']) . '">';
+            echo '<p>' . $grupo->name. '</p>';
+            echo '<img src="images/grupos/' . $grupo->photo . '" alt="photo_group">';
             echo '</div>';
         }
-    } else {
-        echo '<p>No se encontraron grupos con el término de búsqueda proporcionado.</p>';
-    }
+    
 
     require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/footer.inc.php');
     ?>
