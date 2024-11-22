@@ -19,19 +19,30 @@ try {
     $connection = connectToDatabase($host, $database, $user, $password);
     $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Ordenar canciones según el campo y el orden especificados en la URL
-    $campo = isset($_GET['campo']) ? $_GET['campo'] : 'title';
-    $orden = isset($_GET['orden']) && in_array($_GET['orden'], ['asc', 'desc']) ? $_GET['orden'] : 'asc';
-
-    $query = 'SELECT s.id, s.title, s.length, a.title AS album, g.name AS group_name
-        FROM songs s
-        LEFT JOIN albums a ON album_id = a.id
-        LEFT JOIN groups g ON group_id = g.id
-        ORDER BY ' . $campo . ' ' . $orden;
+    // orderar canciones según el campo y el orden especificados en la URL
+    $campo = isset($_GET['field']) ? $_GET['field'] : 'title';
+    $order = isset($_GET['order']) && in_array($_GET['order'], ['asc', 'desc']) ? $_GET['order'] : 'asc';
+    if (empty($_GET['field'] ) && empty($_GET['order'])) {
+        $query = 'SELECT s.id, s.title, s.length, a.title AS album, g.name AS group_name
+            FROM songs s
+            LEFT JOIN albums a ON album_id = a.id
+            LEFT JOIN groups g ON group_id = g.id
+            ORDER BY s.title ASC';
+    } else {
+        $query = 'SELECT s.id, s.title, s.length, a.title AS album, g.name AS group_name
+            FROM songs s
+            LEFT JOIN albums a ON album_id = a.id
+            LEFT JOIN groups g ON group_id = g.id
+            ORDER BY ' . $campo . ' ' . $order;
+    }
+    
     $preparada = $connection->prepare($query);
-
     $preparada->execute();
-    $canciones = $preparada->fetchAll(PDO::FETCH_ASSOC);
+    $canciones = $preparada->fetchAll(PDO::FETCH_OBJ);
+
+
+    unset($canciones);
+    unset($connection);
 } catch (PDOException $e) {
     echo 'Error en la consulta: ' . $e->getMessage();
     echo 'Error al conectar con la base de datos: ' . $e->getMessage();
@@ -60,20 +71,20 @@ try {
         <thead>
             <tr>
                 <th>Título
-                    <a href='songs.php?campo=title&orden=asc'><img src='images/sort-asc.png' alt='Ascendente'></a>
-                    <a href='songs.php?campo=title&orden=desc'><img src='images/sort-desc.png' alt='Descendente'></a>
+                    <a href='songs.php?campo=title&order=asc'><img src='images/sort-asc.png' alt='Ascendente'></a>
+                    <a href='songs.php?campo=title&order=desc'><img src='images/sort-desc.png' alt='Descendente'></a>
                 </th>
                 <th>Duración
-                    <a href='songs.php?campo=length&orden=asc'><img src='images/sort-asc.png' alt='Ascendente'></a>
-                    <a href='songs.php?campo=length&orden=desc'><img src='images/sort-desc.png' alt='Descendente'></a>
+                    <a href='songs.php?campo=length&order=asc'><img src='images/sort-asc.png' alt='Ascendente'></a>
+                    <a href='songs.php?campo=length&order=desc'><img src='images/sort-desc.png' alt='Descendente'></a>
                 </th>
                 <th>Álbum
-                    <a href='songs.php?campo=album&orden=asc'><img src='images/sort-asc.png' alt='Ascendente'></a>
-                    <a href='songs.php?campo=album&orden=desc'><img src='images/sort-desc.png' alt='Descendente'></a>
+                    <a href='songs.php?campo=album&order=asc'><img src='images/sort-asc.png' alt='Ascendente'></a>
+                    <a href='songs.php?campo=album&order=desc'><img src='images/sort-desc.png' alt='Descendente'></a>
                 </th>
                 <th>Grupo
-                    <a href='songs.php?campo=group&orden=asc'><img src='images/sort-asc.png' alt='Ascendente'></a>
-                    <a href='songs.php?campo=group&orden=desc'><img src='images/sort-desc.png' alt='Descendente'></a>
+                    <a href='songs.php?campo=group&order=asc'><img src='images/sort-asc.png' alt='Ascendente'></a>
+                    <a href='songs.php?campo=group&order=desc'><img src='images/sort-desc.png' alt='Descendente'></a>
                 </th>
             </tr>
         </thead>
@@ -84,7 +95,7 @@ try {
                 echo '<td>' . $cancion->title . '</td>';
                 echo '<td>' . gmdate("i:s", $cancion->length). '</td>';
                 echo '<td>' . $cancion->album . '</td>';
-                echo '<td>' . $cancion->group. '</td>';
+                echo '<td>' . $cancion->group_name. '</td>';
                 echo '</tr>';
             }
             ?>

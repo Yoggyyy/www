@@ -34,9 +34,10 @@ try {
     }
 
     $preparada->execute();
-    var_dump($preparada->debugDumpParams());
     $grupos = $preparada->fetchAll(PDO::FETCH_OBJ);
-
+    
+    unset($grupos);
+    unset($connection);
 } catch (PDOException $e) {
     echo 'Error en la consulta: ' . $e->getMessage();
 }
