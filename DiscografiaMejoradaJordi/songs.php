@@ -5,8 +5,7 @@
  * @author Jordi
  * @version 0.0.1
  */
-
-
+ 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/connection.inc.php');
 
 // Configuración de conexión a la base de datos
@@ -19,7 +18,7 @@ try {
     $connection = connectToDatabase($host, $database, $user, $password);
     $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // orderar canciones según el campo y el orden especificados en la URL
+    // orderar canciones según el campo y el orden especificados en la URL=
     $campo = isset($_GET['field']) ? $_GET['field'] : 'title';
     $order = isset($_GET['order']) && in_array($_GET['order'], ['asc', 'desc']) ? $_GET['order'] : 'asc';
     if (empty($_GET['field'] ) && empty($_GET['order'])) {
@@ -49,7 +48,7 @@ try {
 }
 ?>
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
