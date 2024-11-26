@@ -6,16 +6,9 @@
  * @version 0.0.1
  */
 
-// AÑAÑDIR ENLACES A INDEX Y SONGS 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/connection.inc.php');
 
-// Configuración de conexión a la base de datos
-$host = 'localhost';
-$user = 'vetustamorla';
-$password = '15151';
-$database = 'discografia';
-
-$connection = connectToDatabase($host, $database, $user, $password);
+$connection = connectToDatabase();
 
 // Verificar si se envió un término de búsqueda
 $busqueda = isset($_POST['search']) ? $_POST['search'] : '';
@@ -34,9 +27,10 @@ try {
     }
 
     $preparada->execute();
-    $grupos = $preparada->fetchAll(PDO::FETCH_OBJ);
-    
-    unset($grupos);
+    $preparada = $preparada->fetchAll(PDO::FETCH_OBJ);
+    $grupos = $preparada;
+
+    unset($preparada);
     unset($connection);
 } catch (PDOException $e) {
     echo 'Error en la consulta: ' . $e->getMessage();
@@ -57,19 +51,18 @@ try {
 </head>
 
 <body>
-        
+
     <header>
         <nav>
             <a href="index.php">Discografía</a>
             <a href="songs.php">Canciones</a>
-            <a href="groups.php">Grupos</a>
         </nav>
     </header>
 
     <form action="#" method="POST">
         <label for="">Búsqueda</label>
         <input type="text" name="search" id="search">
-        <input type="submit"  value="Buscar">
+        <input type="submit" value="Buscar">
     </form>
 
     <h2>Grupos:</h2>
@@ -77,7 +70,7 @@ try {
     <?php
     foreach ($grupos as $grupo) {
         echo '<div>';
-        echo '<p>' . $grupo->name . '</p>';
+        echo '<a href= "/groups.php?id=' . strval($grupo->id) . '">' . $grupo->name . '</a>';
         echo '<img src="images/grupos/' . $grupo->photo . '" alt="photo_group">';
         echo '</div>';
     }

@@ -34,9 +34,10 @@ try {
     }
 
     $preparada->execute();
-    $grupos = $preparada->fetchAll(PDO::FETCH_OBJ);
+    $preparada = $preparada->fetchAll(PDO::FETCH_OBJ);
+    $grupos= $preparada;
     
-    unset($grupos);
+    unset($preparada);
     unset($connection);
 } catch (PDOException $e) {
     echo 'Error en la consulta: ' . $e->getMessage();
@@ -81,8 +82,13 @@ try {
     }
 
     require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/footer.inc.php');
+    
     ?>
 
 </body>
 
 </html>
+
+<?php
+    unset($grupos);
+?>

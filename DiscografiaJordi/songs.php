@@ -38,10 +38,11 @@ try {
     
     $preparada = $connection->prepare($query);
     $preparada->execute();
-    $canciones = $preparada->fetchAll(PDO::FETCH_OBJ);
+    $preparada = $preparada->fetchAll(PDO::FETCH_OBJ);
+    $canciones = $preparada;
 
 
-    unset($canciones);
+    unset($preparada);
     unset($connection);
 } catch (PDOException $e) {
     echo 'Error en la consulta: ' . $e->getMessage();
@@ -60,6 +61,8 @@ try {
 </head>
 
 <body>
+    <a href="index.php">Inicio</a>
+    <a href="songs.php">Canciones</a>
     <header>
         Discografía
         Canciones

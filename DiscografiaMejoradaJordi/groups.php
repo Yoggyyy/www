@@ -6,8 +6,8 @@
  */
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/connection.inc.php');
-
-$group_id = isset($_GET['id']) ? $_GET['id'] : 0;
+ 
+$group_id = isset($_GET['id']) ? $_GET['id'] : null;
 $action = isset($_GET['action']) ? $_GET['action'] : '';
 $album_id = isset($_GET['album']) ? $_GET['album'] : 0;
 
@@ -33,12 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (empty($errors)) {
         try {
-            $host = 'localhost';
-            $user = 'vetustamorla';
-            $password = '15151';
-            $database = 'discografia';
 
-            $connection = connectToDatabase($host, $database, $user, $password);
+            $connection = connectToDatabase();
             $query = "INSERT INTO albums (title, group_id, year, format, buydate, price, photo) VALUES (:title, :group_id, :year, :format, :buydate, :price, :photo)";
             $preparada = $connection->prepare($query);
             $preparada->bindParam(':title', $title);
@@ -54,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             unset($preparada);
             unset($connection);
 
-            header("Location: group.php?id=$group_id");
+            header("Location: groups.php?id=$group_id");
             exit;
         } catch (PDOException $e) {
             echo 'Error al insertar el álbum: ' . $e->getMessage();
@@ -64,12 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 if ($action == 'delete' && $album_id) {
     try {
-        $host = 'localhost';
-        $user = 'vetustamorla';
-        $password = '15151';
-        $database = 'discografia';
 
-        $connection = connectToDatabase($host, $database, $user, $password);
+        $connection = connectToDatabase();
         $query = "DELETE FROM albums WHERE id = :album_id";
         $preparada = $connection->prepare($query);
         $preparada->bindParam(':album_id', $album_id);
@@ -84,7 +76,7 @@ if ($action == 'delete' && $album_id) {
         unset($preparada);
         unset($connection);
 
-        header("Location: group.php?id=$group_id");
+        header("Location: groups.php?id=$group_id");
         exit;
     } catch (PDOException $e) {
         echo 'Error al eliminar el álbum: ' . $e->getMessage();
@@ -92,12 +84,8 @@ if ($action == 'delete' && $album_id) {
 }
 
 try {
-    $host = 'localhost';
-    $user = 'vetustamorla';
-    $password = '15151';
-    $database = 'discografia';
 
-    $connection = connectToDatabase($host, $database, $user, $password);
+    $connection = connectToDatabase();
     $query = "SELECT id, title FROM albums WHERE group_id = :group_id";
     $preparada = $connection->prepare($query);
     $preparada->bindParam(':group_id', $group_id);
@@ -128,7 +116,6 @@ try {
         <nav>
             <a href="index.php">Discografía</a>
             <a href="songs.php">Canciones</a>
-            <a href="groups.php">Grupos</a>
         </nav>
     </header>
     
@@ -137,7 +124,7 @@ try {
         foreach ($albums as $album) {
             echo '<div>';
             echo '<p>' . $album->title;
-           echo '<a href="group.php?id=' . $group_id . '&album=' . $album->id . '&action=confirm">';
+           echo '<a href="groups.php?id=' . $group_id . '&album=' . $album->id . '&action=confirm">';
             echo '<img src="images/iconos/papelera.png" alt="Eliminar">';
             echo '</a></p>';
             echo '</div>';
@@ -145,8 +132,8 @@ try {
 
         if ($action == 'confirm' && $album_id) {
             echo '<p>¿Estás seguro de que deseas eliminar este álbum?</p>';
-            echo '<a href="group.php?id=' . $group_id . '">Cancelar</a>';
-            echo '<a href="group.php?id=' . $group_id . '&album=' . $album_id . '&action=delete">Confirmar</a>';
+            echo '<a href="groups.php?id=' . $group_id . '">Cancelar</a>';
+            echo '<a href="groups.php?id=' . $group_id . '&album=' . $album_id . '&action=delete">Confirmar</a>';
         }
         ?>
 

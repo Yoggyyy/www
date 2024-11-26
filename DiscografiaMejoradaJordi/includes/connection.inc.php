@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Establece una conexión a la base de datos utilizando PDO.
  * @author Jordi
@@ -12,7 +13,14 @@
  * @throws Exception Si no se puede establecer la conexión.
  */
 
-function connectToDatabase($host, $database, $user, $password) {
+function connectToDatabase()
+{
+    // Configuración de conexión a la base de datos
+    $host = 'localhost';
+    $user = 'vetustamorla';
+    $password = '15151';
+    $database = 'discografia';
+
     try {
         $connection = new PDO('mysql:host=' . $host . ';dbname=' . $database . ';charset=utf8', $user, $password);
         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -22,5 +30,3 @@ function connectToDatabase($host, $database, $user, $password) {
         return null;
     }
 }
-
-?>
