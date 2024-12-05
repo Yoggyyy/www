@@ -168,13 +168,13 @@ class Hero {
      *
      * @param Weapon $weapon Objeto Weapon a añadir.
      */
-    public function addWeapon(Weapon $weapon) 
+    public function addWeapon(Weapon $weapon): string
     {
         if ($this->weapon === null) {
             $this->weapon = $weapon;
-            echo 'Arma añadida: ' . $weapon;
+            return  'Arma añadida: ' . $weapon;
         } else {
-            echo 'Ya tienes un arma equipada. Debes quitarla antes de añadir una nueva.';
+            return 'Ya tienes un arma equipada. Debes quitarla antes de añadir una nueva.';
         }
     }
 
@@ -184,13 +184,15 @@ class Hero {
      * @param Armor $armor Objeto Armor a añadir.
      */
 
-    public function addArmor(Armor $armor) 
+    public function addArmor(Armor $armor): string
     {
         if ($this->armor === null) {
             $this->armor = $armor;
-            echo 'Armadura añadida: ' . $armor;
+            return 'Armadura añadida: ' . $armor;
+            // retrun true
         } else {
-            echo 'Ya tienes una armadura equipada. Debes quitarla antes de añadir una nueva.';
+            // return false
+            return 'Ya tienes una armadura equipada. Debes quitarla antes de añadir una nueva.';
         }
     }
 
@@ -199,13 +201,13 @@ class Hero {
      *
      * @param Potion $potion Objeto Potion a añadir.
      */
-    public function addPotion(Potion $potion) 
+    public function addPotion(Potion $potion): string 
     {
         if (count($this->potions) < 2) {
             $this->potions[] = $potion;
-            echo 'Poción añadida: ' . $potion;
+            return 'Poción añadida: ' . $potion;
         } else {
-            echo 'Ya tienes el máximo de 2 pociones.';
+            return 'Ya tienes el máximo de 2 pociones.';
         }
     }
 }
