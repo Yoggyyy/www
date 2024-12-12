@@ -1,46 +1,76 @@
 <?php
 
 // iniciamos y configuramos la sesion
-ini_set('session.name', 'SesionJordi');
+ini_set('session.name', 'basket');
 ini_set('session.cookie_lifetime', 300);
 //se inicia o se recupera la anterior
 session_start();
 
-
-
-require_once($_SERVER['DOCUMENT_ROOT'] .'/includes/env.inc.php');
-require_once($_SERVER['DOCUMENT_ROOT'] .'/includes/connection.inc.php');
-try {
-	if ($connection = getDBConnection(DB_NAME, DB_USERNAME, DB_PASSWORD)) {
-		$query = 'SELECT * FROM products;';
-		$products = $connection->query($query)->fetchAll(PDO::FETCH_OBJ);
-	} else {
-		throw new Exception('Error en la conexión a la BBDD');
+	require_once($_SERVER['DOCUMENT_ROOT'] .'/includes/env.inc.php');
+	require_once($_SERVER['DOCUMENT_ROOT'] .'/includes/connection.inc.php');
+	
+	try {
+		if ($connection = getDBConnection(DB_NAME, DB_USERNAME, DB_PASSWORD)) {
+			$query = 'SELECT * FROM products;';
+			$products = $connection->query($query)->fetchAll(PDO::FETCH_OBJ);
+		} else {
+			throw new Exception('Error en la conexión a la BBDD');
+		}
+		unset($query);
+		unset($connection);
+	} catch (Exception $exception) {
+		$dbError = true;
+		unset($query);
+		unset($connection);
 	}
-	unset($query);
-	unset($connection);
-} catch (Exception $exception) {
-	$dbError = true;
-	unset($query);
-	unset($connection);
-}
-
-
+ 
 	// Compruebo si el dato obtenido es para add, eliminar del carrito o eliminar todo el carrito
 	if (isset($_GET['add'])) {
 		$_SESSION['basket'][$_GET['add']]++;
-	}else if (isset($_GET['subtract'])) {
+		// Redirigir para no mostrar la accion a relizar	
+		header('Location: /index');
+		exit;
+	} else {
+		$_GET['add'] = 1;
+	}
+	if (isset($_GET['subtract'])) {
 		if ($_SESSION['basket'][$_GET['subtract']]>0) {
 			$_SESSION['basket'][$_GET['subtract']]--;
+			header('Location: /index');
+			exit;
+			
 		}else if ($_SESSION['basket'][$_GET['subtract']]=== 0) {
 			unset($_SESSION['basket'][$_GET['subtract']]);
+			header('Location: /index');
+			exit;
 		}
-		
-	}else if (isset($_GET['remove']) && $_SESSION['basket'][$_GET['remove']]=== 0 ){
-		unset($_SESSION['basket'][$_GET['remove']]);
+	
+	}else {
+		$_GET['subtract'] = 1;
 	}
 
-	var_dump($_SESSION['basket']);
+	if (isset($_GET['remove']) && $_SESSION['basket'][$_GET['remove']]=== 0 ){
+		unset($_SESSION['basket'][$_GET['remove']]);
+		header('Location: /index');
+		exit;
+	}else {
+		$_GET['remove'] = 1;
+	}
+
+
+	$totalQuantity = 0;
+	// Tengo que contabilizar la cantidad de productos
+	if (isset($_SESSION['basket'])) {
+		foreach ($_SESSION['basket'] as $quantity ) {
+			$totalQuantity =+ $quantity;
+		}
+	}
+
+
+/* 	var_dump($_SESSION['basket']); */
+
+	
+   
 ?>
 <!doctype html>
 <html lang="es">
@@ -86,10 +116,11 @@ try {
 		<!-- Eliminar estos br --><br><br>
 
 
-<!-- Si el usuario está logueado (existe su variable de sesión): -->
+<!--   Si el usuario está logueado (existe su variable de sesión): -->
 		<div id="carrito">
-			X
-			productos en el carrito.
+			
+		<?=  $totalQuantity;?> productos en el carrito
+			
 			<a href="/basket" class="boton">Ver carrito</a>
 		</div>
 

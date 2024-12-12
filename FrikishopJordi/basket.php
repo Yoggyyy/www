@@ -1,12 +1,13 @@
 <?php
-
-
-
-
+// iniciamos y configuramos la sesion
+ini_set('session.name', 'basket');
+ini_set('session.cookie_lifetime', 300);
+//se inicia o se recupera la anterior
+session_start();
 
 // Si se recibe la variable basket por get y su valor es delete se debe borrar todo el carrito
 if (isset($_GET['basket']) && $_GET['basket']==='delete') {
-	
+	unset($_SESSION['basket'][$_GET['remove']]);
 	// Tras borrar el carrito se redirige al propio script para no mostrar la URL: basket/delete
 	header('location: /basket');
 	exit;
@@ -21,11 +22,15 @@ require_once($_SERVER['DOCUMENT_ROOT'] .'/includes/env.inc.php');
 require_once($_SERVER['DOCUMENT_ROOT'] .'/includes/connection.inc.php');
 try {
 	if ($connection = getDBConnection(DB_NAME, DB_USERNAME, DB_PASSWORD)) {
-		foreach(/* Recorrer el carrito (en la sesión) */) {
+		if (!empty($_SESSION['basket'])) {
+		 	/* Recorrer el carrito (en la sesión) */
+			foreach($_SESSION['basket'] as $productId => $quantity) {
 			// Con cada producto de la sesión se obtiene su información de la BBDD
 			$product = $connection->query('SELECT name, price FROM products WHERE id='. $productId .';', PDO::FETCH_OBJ);
-			$products[] = ['info' => $product->fetch(), 'quantity' => /* Cantidad del producto en el carrito */];
+			$products[] = ['info' => $product->fetch(), 'quantity' => $quantity];
+			}
 		}
+		
 
 	} else {
 		throw new Exception('Error en la conexión a la BBDD');
@@ -57,7 +62,11 @@ unset($connection);
 		<br>
 		<section>
 			<!-- Si el carrito está vacío: -->
-				<div>El carrito está vacío.</div>'
+			<?php
+			if (empty($_SESSION['basket'])) {
+				echo '<div>El carrito está vacío.</div>';
+			}else{
+			?>	
 			
 			<!-- Si el carrito tiene productos: -->
 			<?php
@@ -76,6 +85,7 @@ unset($connection);
 			}		
 			echo '<tr><td></td><td></td><td>Total</td><td>'. $basketTotal .' €</td></tr>';
 			echo '</table>';
+	    		}
 			?>
 			<br><br>
 			<a href="/" class="boton">Volver</a>				

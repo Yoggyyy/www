@@ -19,7 +19,7 @@
      $preparada->execute();
      $preparada = $preparada->fetchAll(PDO::FETCH_OBJ);
      $animes = $preparada;
- 
+     
      unset($preparada);
      unset($connection);
  } catch (PDOException $e) {
