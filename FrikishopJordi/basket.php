@@ -26,7 +26,9 @@ try {
 		 	/* Recorrer el carrito (en la sesión) */
 			foreach($_SESSION['basket'] as $productId => $quantity) {
 			// Con cada producto de la sesión se obtiene su información de la BBDD
-			$product = $connection->query('SELECT name, price FROM products WHERE id='. $productId .';', PDO::FETCH_OBJ);
+			$product = $connection->query('SELECT name, price 
+										   FROM products 
+										   WHERE id='. $productId .';', PDO::FETCH_OBJ);
 			$products[] = ['info' => $product->fetch(), 'quantity' => $quantity];
 			}
 		}

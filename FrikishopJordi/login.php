@@ -37,7 +37,9 @@ if(!empty($_POST)) {
             require_once($_SERVER['DOCUMENT_ROOT'] .'/includes/connection.inc.php');
             if ($connection = getDBConnection(DB_NAME, DB_USERNAME, DB_PASSWORD)) {
                 // Se accede obtienen los datos del usuario desde la base de datos
-                $query = $connection->prepare('SELECT user, rol, password FROM users WHERE (user=:user OR email=:mail);');
+                $query = $connection->prepare('SELECT user, rol, password 
+                                               FROM users 
+                                               WHERE (user=:user OR email=:mail);');
                 $query->bindParam(':user', $_POST['user']);
                 $query->bindParam(':mail', $_POST['user']);
                 $query->execute();
