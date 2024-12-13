@@ -1,13 +1,13 @@
 <?php
 // iniciamos y configuramos la sesion
-ini_set('session.name', 'basket');
+ini_set('session.name', 'SesionJordi');
 ini_set('session.cookie_lifetime', 300);
 //se inicia o se recupera la anterior
 session_start();
 
 // Si se recibe la variable basket por get y su valor es delete se debe borrar todo el carrito
 if (isset($_GET['basket']) && $_GET['basket']==='delete') {
-	unset($_SESSION['basket'][$_GET['remove']]);
+	unset($_SESSION['basket']);
 	// Tras borrar el carrito se redirige al propio script para no mostrar la URL: basket/delete
 	header('location: /basket');
 	exit;

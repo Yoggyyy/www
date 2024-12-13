@@ -1,7 +1,7 @@
 <?php
 
 // iniciamos y configuramos la sesion
-ini_set('session.name', 'basket');
+ini_set('session.name', 'SesionJordi');
 ini_set('session.cookie_lifetime', 300);
 //se inicia o se recupera la anterior
 session_start();
@@ -26,20 +26,23 @@ session_start();
  
 	// Compruebo si el dato obtenido es para add, eliminar del carrito o eliminar todo el carrito
 	if (isset($_GET['add'])) {
-		$_SESSION['basket'][$_GET['add']]++;
+		if (isset($_SESSION['basket'][$_GET['add']])) {
+			$_SESSION['basket'][$_GET['add']]++;
+		}else {
+			$_SESSION['basket'][$_GET['add']] = 1;
+		}
 		// Redirigir para no mostrar la accion a relizar	
 		header('Location: /index');
 		exit;
-	} else {
-		$_GET['add'] = 1;
-	}
+	} 
+
 	if (isset($_GET['subtract'])) {
-		if ($_SESSION['basket'][$_GET['subtract']]>0) {
+		if ($_SESSION['basket'][$_GET['subtract']]>1) {
 			$_SESSION['basket'][$_GET['subtract']]--;
 			header('Location: /index');
 			exit;
 			
-		}else if ($_SESSION['basket'][$_GET['subtract']]=== 0) {
+		}else {
 			unset($_SESSION['basket'][$_GET['subtract']]);
 			header('Location: /index');
 			exit;
@@ -49,7 +52,7 @@ session_start();
 		$_GET['subtract'] = 1;
 	}
 
-	if (isset($_GET['remove']) && $_SESSION['basket'][$_GET['remove']]=== 0 ){
+	if (isset($_GET['remove'])){
 		unset($_SESSION['basket'][$_GET['remove']]);
 		header('Location: /index');
 		exit;
@@ -62,13 +65,13 @@ session_start();
 	// Tengo que contabilizar la cantidad de productos
 	if (isset($_SESSION['basket'])) {
 		foreach ($_SESSION['basket'] as $quantity ) {
-			$totalQuantity =+ $quantity;
+			$totalQuantity += $quantity;
 		}
 	}
 
-
-/* 	var_dump($_SESSION['basket']); */
-
+	echo '<pre>';
+	var_dump($_SESSION);
+	echo '</pre>';
 	
    
 ?>
@@ -84,6 +87,7 @@ session_start();
 	<body>
 		<?php
 			require_once($_SERVER['DOCUMENT_ROOT'] .'/includes/header.inc.php');
+			if (!isset($_SESSION['user'])) {
 		?>
 
 <!-- Si el usuario no está logueado (no existe su variable de sesión): -->
@@ -106,10 +110,15 @@ session_start();
 		</form>
 
 		<span>¿Ya tienes cuenta? <a href="/login">Loguéate aquí</a>.</span>
-
+		
 		<div id="ofertas">
 			<a href="/sales"><img src="/img/ofertas.png" alt="Imagen acceso ofertas"></a>
 		</div>
+		
+		<?php
+			}else {
+		?>
+
 <!-- Fin usuario no logueado -->
 
 
@@ -148,6 +157,7 @@ session_start();
 			} else {
 				echo '<h2>Vendemos mucho y ahora mismo no hay productos, visítanos más tarde.</h2>';
 			}
+				}
 			?>
 		</section>
 <!-- Fin usuario logueado -->

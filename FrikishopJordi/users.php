@@ -1,8 +1,10 @@
 <?php
 
-
-
-
+// iniciamos y configuramos la sesion
+ini_set('session.name', 'SesionJordi');
+ini_set('session.cookie_lifetime', 300);
+//se inicia o se recupera la anterior
+session_start();
 
 require_once($_SERVER['DOCUMENT_ROOT'] .'/includes/env.inc.php');
 require_once($_SERVER['DOCUMENT_ROOT'] .'/includes/connection.inc.php');
