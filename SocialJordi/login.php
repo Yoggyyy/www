@@ -34,7 +34,7 @@ if(!empty($_POST)) {
             require_once($_SERVER['DOCUMENT_ROOT'] .'/includes/connection.inc.php');
             if ($connection = getDBConnection(DB_NAME, DB_USERNAME, DB_PASSWORD)) {
                 // Se accede obtienen los datos del usuario desde la base de datos
-                $query = $connection->prepare('SELECT user, rol, password 
+                $query = $connection->prepare('SELECT user,  password 
                                                FROM users 
                                                WHERE (user=:user OR email=:mail);');
                 $query->bindParam(':user', $_POST['user']);
@@ -90,7 +90,7 @@ if(!empty($_POST)) {
 
     <?php
         if (isset($_GET['signup']) && $_GET['signup']==1) {
-            echo '<h3>Se ha registrado correctamente ya puede acceder a la aplicación.</h3>';
+            echo '<h3>Se ha registrado correctamente ya puede acceder a SociaLink.</h3>';
         } else {
             echo isset($errors['login']) ? '<h3>Error en el acceso, inténtelo más tarde.</h3>' : '';
             ?>

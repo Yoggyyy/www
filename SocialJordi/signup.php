@@ -52,9 +52,6 @@ if(!empty($_POST)) {
                     header ('location: /login/signup/1');
                     exit;
                 }
-
-                    
-
                 // Si sí que existen se guarda un error para luego mostrarlo en el body
 
             } else {
