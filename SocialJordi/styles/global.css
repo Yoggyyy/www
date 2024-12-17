@@ -1,0 +1,42 @@
+:root {
+    --bg-primary: rgb(107, 205, 234);
+    --bg-inputs: rgba(128, 128, 128, 0.25);
+    --bg-inputs-hover: rgba(107, 205, 234, 0.25);
+
+    --border-xs: 10px;
+    --border-xxs: 5px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-family: sans-serif;
+}
+
+.input {
+    padding: .8rem 1rem;
+
+    border: 2px solid transparent;
+    border-radius: var(--border-xs);
+    background-color: var(--bg-inputs);
+    color: black;
+    transition: all ease-in 250ms;
+
+    &:hover {
+        background-color: var(--bg-inputs-hover);
+        border: 2px solid var(--bg-inputs);
+    }
+}
+
+.button {
+    text-decoration: none;
+    color: white;
+    
+    font-weight: bold;
+
+    padding: .5rem 2rem;
+    background-color: var(--bg-primary);
+
+}

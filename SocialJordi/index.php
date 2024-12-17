@@ -31,7 +31,8 @@ session_start();
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>SocialLink</title>
-		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/global.css">
+		<link rel="stylesheet" href="/css/login.css">
 	</head>
 
 	<body>
@@ -59,7 +60,7 @@ session_start();
 			<input type="submit" value="Registrarse">
 		</form>
 
-		<span>¿Ya tienes cuenta? <a href="/login">Loguéate aquí</a>.</span>
+		<span>¿Ya tienes cuenta? <a href="/login.php">Loguéate aquí</a>.</span>
 		
 		<?php
 			}else {
