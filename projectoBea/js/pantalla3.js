@@ -1,5 +1,5 @@
 /**
- * @file pantalla-cuestionario.js
+ * @file pantalla3.js
  * @description Gestiona la pantalla de cuestionarios y las preguntas.
  */
 

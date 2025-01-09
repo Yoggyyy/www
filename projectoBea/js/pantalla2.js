@@ -1,5 +1,5 @@
 /**
- * @file pantalla-login.js
+ * @file pantalla2.js
  * @description Controla el formulario de login y la validación del correo.
  */
 

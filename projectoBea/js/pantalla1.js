@@ -1,5 +1,5 @@
 /**
- * @file pantalla-bienvenida.js
+ * @file pantalla1.js
  * @description Controla la pantalla de bienvenida y la transición al login.
  */
 
