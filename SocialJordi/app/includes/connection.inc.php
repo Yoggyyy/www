@@ -1,5 +1,5 @@
 <?php
-function getDBConnection(string $dbname, string $username, string $password, string  $host='127.0.0.1') {
+function connectDb(string $dbname, string $username, string $password, string  $host='127.0.0.1') {
     $dsn = 'mysql:dbname='. $dbname .';host='. $host;
     $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
     try {

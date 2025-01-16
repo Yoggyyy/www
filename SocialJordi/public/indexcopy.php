@@ -5,8 +5,8 @@ ini_set('session.cookie_lifetime', 300);
 //se inicia o se recupera la anterior
 session_start();
 
-	require_once($_SERVER['DOCUMENT_ROOT'] .'/includes/env.inc.php');
-	require_once($_SERVER['DOCUMENT_ROOT'] .'/includes/connection.inc.php');
+	require_once($_SERVER['DOCUMENT_ROOT'] .'/app/includes/env.inc.php');
+	require_once($_SERVER['DOCUMENT_ROOT'] .'/app/includes/connection.inc.php');
 	
 	/* try {
 		if ($connection = getDBConnection(DB_NAME, DB_USERNAME, DB_PASSWORD)) {
@@ -37,15 +37,13 @@ session_start();
 
 	<body>
 		<?php
-			require_once($_SERVER['DOCUMENT_ROOT'] .'/includes/header.inc.php');
+			require_once($_SERVER['DOCUMENT_ROOT'] .'/app/includes/header.inc.php');
 			if (!isset($_SESSION['user'])) {
 		?>
 
 <!-- Si el usuario no está logueado (no existe su variable de sesión): -->
 		<h2>Regístrate para poder acceder a SocialLink</h2>
 
-
-		
 		<form action="signup" method="post">
 			<label for="user">Usuario</label>
 			<input type="text" name="user" id="user">
