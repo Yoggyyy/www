@@ -3,20 +3,20 @@
         <a href="/front-end/autor.php">
             <span>Jordi Santos Torres</span>
         </a>
-        <img src="/images/footer/fotoJordi.png" alt="Foto mia de ejemplo">
+        <img src="/assets/images/footer/fotoJordi.png" alt="Foto mia de ejemplo">
     </div>
     <div class="wrap-footer">
         <div class="rrss">
             <h5>Redes Sociales</h5>
             <ul>
                 <li><a href="https://www.facebook.com" target="_blank">
-                        <img src="public/images/footer/face.png" alt="Facebook">
+                        <img src="/assets/images/footer/face.png" alt="Facebook">
                     </a></li>
                 <li><a href="https://www.instagram.com" target="_blank">
-                        <img src="public/images/footer/insta.png" alt="Instagram">
+                        <img src="/assets/images/footer/insta.png" alt="Instagram">
                     </a></li>
                 <li><a href="https://twitter.com" target="_blank">
-                        <img src="public/images/footer/x.png" alt="X">
+                        <img src="/assets/images/footer/x.png" alt="X">
                     </a></li>
             </ul>
         </div>

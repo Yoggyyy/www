@@ -3,17 +3,14 @@
  * Página de Perfil de Usuario.
  *
  * - Muestra los datos del usuario basado en el ID recibido.
- * - Incluye la cantidad de seguidores del usuario.
- * - Muestra una lista de publicaciones del usuario con estadísticas básicas.
+ * - Muestra una lista de publicaciones del usuario.
+ * - Permite seguir o dejar de seguir al usuario visitado y actualiza el número de seguidores en tiempo real.
  *
  * PHP version 8.1
  *
- * @category Página_Web
  * @package  SocialLink
- * @author   Jordi
- * @license  MIT License
+ * @author   Jordi Santos
  * @version  1.0
- * @link     http://localhost/front-end/user.php
  */
 
 // Configuración e inicio de sesión
@@ -22,7 +19,7 @@ session_start();
 
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['user_id'])) {
-    header('Location: /login.php');
+    header('Location: /front-end/login.php');
     exit;
 }
 
@@ -38,10 +35,41 @@ $userId = $_GET['id'] ?? null;
 $errors = [];
 $userData = null;
 $userPosts = [];
+$isFollowing = false;
 
-// Obtener los datos del usuario
+// Manejo de las acciones de seguir y dejar de seguir al usuario
 if ($userId && is_numeric($userId)) {
     try {
+        // Verificar si el usuario autenticado ya sigue al usuario visitado
+        $stmt = $pdo->prepare('SELECT * FROM follows WHERE user_id = :currentUserId AND user_followed = :userId');
+        $stmt->execute([
+            ':currentUserId' => $_SESSION['user_id'],
+            ':userId' => $userId
+        ]);
+        $isFollowing = $stmt->rowCount() > 0;
+
+        // Manejar acción de seguir
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+            if ($_POST['action'] === 'follow' && !$isFollowing) {
+                $stmt = $pdo->prepare('INSERT INTO follows (user_id, user_followed) VALUES (:currentUserId, :userId)');
+                $stmt->execute([
+                    ':currentUserId' => $_SESSION['user_id'],
+                    ':userId' => $userId
+                ]);
+                $isFollowing = true; // Actualizar estado
+            }
+
+            // Manejar acción de dejar de seguir
+            if ($_POST['action'] === 'unfollow' && $isFollowing) {
+                $stmt = $pdo->prepare('DELETE FROM follows WHERE user_id = :currentUserId AND user_followed = :userId');
+                $stmt->execute([
+                    ':currentUserId' => $_SESSION['user_id'],
+                    ':userId' => $userId
+                ]);
+                $isFollowing = false; // Actualizar estado
+            }
+        }
+
         // Datos del usuario y cantidad de seguidores
         $stmt = $pdo->prepare('
             SELECT user, email,
@@ -96,6 +124,16 @@ if ($userId && is_numeric($userId)) {
                 <p><strong>Email:</strong> <?= $userData['email'] ?></p>
                 <p><strong>Seguidores:</strong> <?= $userData['followers'] ?></p>
 
+                <form method="POST" action="/front-end/user.php?id=<?= $userId ?>">
+                    <?php if (!$isFollowing) { ?>
+                        <input type="hidden" name="action" value="follow">
+                        <button type="submit">Seguir</button>
+                    <?php } else { ?>
+                        <input type="hidden" name="action" value="unfollow">
+                        <button type="submit">Dejar de Seguir</button>
+                    <?php } ?>
+                </form>
+
                 <h2>Publicaciones</h2>
                 <?php if (!empty($userPosts)) { ?>
                     <ul class="user-posts">
@@ -135,3 +173,6 @@ if ($userId && is_numeric($userId)) {
 </body>
 
 </html>
+
+
+

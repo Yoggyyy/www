@@ -8,8 +8,9 @@
  *
  * PHP version 8.1
  *
- * @category Página_Web
  * @package  SocialLink
+ * @author   Jordi Santos
+ * @version  1.0
  */
 
 // Configuración e inicio de sesión
@@ -121,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <p class="error"><?= $errors['database'] ?></p>
             <?php } ?>
 
-            <form method="POST" action="/account.php">
+            <form method="POST" action="/back-office/account.php">
                 <label for="username">Nombre de Usuario</label>
                 <input type="text" id="username" name="username" value="<?= $userData['user'] ?? '' ?>" required>
                 <?php if (isset($errors['username'])) { ?>
@@ -144,8 +145,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
 
             <div class="links">
-                <a href="/front-end/list.php">Mis Publicaciones</a>
-                <a href="/front-end/cancel.php">Eliminar Cuenta</a>
+                <a href="/back-office/list.php">Mis Publicaciones</a>
+                <a href="/back-office/cancel.php">Eliminar Cuenta</a>
             </div>
         </section>
     </main>

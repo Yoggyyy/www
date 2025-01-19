@@ -1,0 +1,410 @@
+/* ======================================================
+   Global Styles
+   ====================================================== */
+
+   body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f9ff; /* Azul cielo claro */
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+h1, h2, h3 {
+    color: #0056b3; /* Azul más oscuro */
+}
+
+p {
+    line-height: 1.6;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* ======================================================
+   Header
+   ====================================================== */
+
+header {
+    background-color: #ffffff;
+    border-bottom: 2px solid #007bff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 a {
+    color: #007bff;
+    font-size: 24px;
+}
+
+header nav a {
+    margin-left: 15px;
+    color: #0056b3;
+    font-weight: bold;
+}
+
+header nav a:hover {
+    color: #003d80;
+}
+
+#zonausuario {
+    display: flex;
+    align-items: center;
+}
+
+#zonausuario span {
+    margin-right: 15px;
+}
+
+/* ======================================================
+   Footer
+   ====================================================== */
+
+   .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #0073e6;
+    color: #ffffff;
+    padding: 20px;
+}
+
+.Name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.Name img {
+    border-radius: 50%;
+    width: 100px;
+    height: auto;
+    margin-top: 10px;
+}
+
+.wrap-footer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.rrss {
+    text-align: left;
+}
+
+.rrss h5 {
+    text-align: center;
+}
+
+.rrss ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.rrss li {
+    margin: 5px;
+    list-style: none;
+}
+
+.rrss img {
+    width: 40px;
+    height: auto;
+}
+
+/* Derechos de autor */
+.footer-creds {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.copy-creds {
+    text-align: left;
+}
+
+.legal-creds ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.legal-creds li {
+    margin-left: 15px;
+}
+
+.legal-creds li:first-child {
+    margin-left: 0;
+}
+
+/* Enlaces dentro del footer */
+.footer a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+
+/* ======================================================
+   Home (index.php)
+   ====================================================== */
+
+.welcome {
+    text-align: center;
+    margin: 50px auto;
+    padding: 20px;
+    max-width: 600px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.welcome h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.welcome p {
+    font-size: 16px;
+    color: #555;
+}
+
+.welcome form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.welcome form button {
+    width: 100%;
+    padding: 10px;
+}
+
+/* ======================================================
+   Login (login.php)
+   ====================================================== */
+
+.image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+}
+
+.image .logo {
+    margin-bottom: 20px;
+}
+
+.form {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.form button {
+    width: 100%;
+}
+
+/* ======================================================
+   New Publication (new.php)
+   ====================================================== */
+
+.new-section {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.new-section h1 {
+    margin-bottom: 20px;
+}
+
+.new-section textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: none;
+    min-height: 150px;
+}
+
+/* ======================================================
+   Entry (entry.php)
+   ====================================================== */
+
+.entry-section {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.entry-section h1 {
+    margin-bottom: 10px;
+}
+
+.entry-section p {
+    font-size: 16px;
+    color: #555;
+}
+
+.entry-comments {
+    margin-top: 20px;
+}
+
+.entry-comments ul li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* ======================================================
+   User Profile (user.php)
+   ====================================================== */
+
+.user-section {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.user-section h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.user-section p {
+    font-size: 16px;
+    color: #555;
+}
+
+.user-posts {
+    margin-top: 20px;
+}
+
+.user-posts li {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* ======================================================
+   Results (results.php)
+   ====================================================== */
+
+.results-section {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.results-section ul li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.results-section ul li a {
+    color: #007bff;
+}
+
+/* ======================================================
+   Cancel Account (cancel.php)
+   ====================================================== */
+
+.cancel-section {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.cancel-section p {
+    color: #555;
+}
+
+.cancel-section form input {
+    margin-right: 10px;
+}
+
+/* ======================================================
+   List Publications (list.php)
+   ====================================================== */
+
+.list-section {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.list-section ul li {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}

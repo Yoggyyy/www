@@ -8,8 +8,9 @@
  *
  * PHP version 8.1
  *
- * @category Página_Web
  * @package  SocialLink
+ * @author   Jordi Santos
+ * @version  1.0
  */
 
 // Configuración e inicio de sesión
@@ -18,7 +19,7 @@ session_start();
 
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['user_id'])) {
-    header('Location: /login.php');
+    header('Location: /front-end/login.php');
     exit;
 }
 
@@ -59,11 +60,10 @@ try {
 } catch (Exception $e) {
     // Revertir la transacción si ocurre un error
     $pdo->rollBack();
-    // Redirigir con un mensaje de error en caso de fallo (opcional, depende del sistema)
+    // Redirigir con un mensaje de error en caso de fallo 
     header('Location: /front-end/list.php?error=delete_failed');
     exit;
 }
 
-// Redirigir al usuario a la página `list.php` después de la eliminación
 header('Location: /front-end/list.php?success=deleted');
 exit;

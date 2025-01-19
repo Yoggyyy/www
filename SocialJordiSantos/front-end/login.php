@@ -9,12 +9,9 @@
  *
  * PHP version 8.1
  *
- * @category Página_Web
  * @package  SocialLink
- * @author   
- * @license  MIT License
+ * @author   Jordi Santos
  * @version  1.0
- * @link     http://localhost/login.php
  */
 
 // Configuración e inicio de sesión
@@ -99,6 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ?>
 
     <main>
+    <div class="main-content">
         <section class="login-section">
             <h1>Iniciar Sesión</h1>
 
@@ -109,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <p class="error"><?= $errors['database'] ?></p>
             <?php } ?>
 
-            <form method="POST" action="/login.php">
+            <form method="POST" action="/front-end/login.php">
                 <label for="username">Usuario o Correo Electrónico</label>
                 <input type="text" id="username" name="username" value="<?= $username ?>" required>
                 <?php if (isset($errors['username'])) { ?>
@@ -127,6 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <p>¿No tienes una cuenta? <a href="/index.php">Regístrate aquí</a>.</p>
         </section>
+    </div>
     </main>
 
     <?php

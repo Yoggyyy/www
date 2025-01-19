@@ -1,29 +1,20 @@
 <header>
     <h1><a href="/">SocialLink</a></h1>
-
-    <a href="/">Principal</a>
+    
+    <nav>
+        <a href="/">Principal</a>
+        <?php if (isset($_SESSION['user'])) { ?>
+            <a href="/back-office/account.php">Mi Cuenta</a>
+            <a href="/front-end/new.php">Nueva Publicación</a>
+            <a href="/front-end/close.php">Cerrar Sesión</a>
+        <?php } ?>
+        <a href="/front-end/autor.php">Acerca del Autor</a>
+    </nav>
 
     <div id="zonausuario">
-        <!-- Si el usuario no está logueado (no existe su variable de sesión): -->
-        <?php
-        if (!isset($_SESSION['user'])) {
-        ?>
-            <span>¿Ya tienes cuenta? <a href="/login">Loguéate aquí</a>.</span>
-            <!-- Fin usuario no logueado -->
-
-        
-        <!-- Si el usuario está logueado (existe su variable de sesión): -->
-        <?php
-        }
-        if (isset($_SESSION['user'])) {
-        ?>
-           
-            <span id="usuario"><?= $_SESSION['user'] ?></span>
-
-            <span id="logout"><a href="/logout">Desconectar</a></span>
-            <!-- Fin usuario logueado -->
-        <?php
-        }
-        ?>
+        <?php if (!isset($_SESSION['user'])) { ?>
+            <span>¿Ya tienes cuenta? <a href="/front-end/login.php">Inicia Sesión</a>.</span>
+        <?php } ?>
     </div>
 </header>
+

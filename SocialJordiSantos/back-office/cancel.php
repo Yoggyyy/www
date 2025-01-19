@@ -8,8 +8,9 @@
  *
  * PHP version 8.1
  *
- * @category Página_Web
  * @package  SocialLink
+ * @author   Jordi Santos
+ * @version  1.0
  */
 
 // Configuración e inicio de sesión
@@ -18,7 +19,7 @@ session_start();
 
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['user_id'])) {
-    header('Location: /login.php');
+    header('Location: /front-end/login.php');
     exit;
 }
 
@@ -40,27 +41,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $userId = $_SESSION['user_id'];
 
-            // Eliminar comentarios del usuario
+            // Eliminar datos relacionados
+            $stmt = $pdo->prepare('DELETE FROM likes WHERE user_id = :userId');
+            $stmt->execute([':userId' => $userId]);
+
+            $stmt = $pdo->prepare('DELETE FROM dislikes WHERE user_id = :userId');
+            $stmt->execute([':userId' => $userId]);
+
+            $stmt = $pdo->prepare('DELETE FROM comments WHERE entry_id IN (SELECT id FROM entries WHERE user_id = :userId)');
+            $stmt->execute([':userId' => $userId]);
+
             $stmt = $pdo->prepare('DELETE FROM comments WHERE user_id = :userId');
             $stmt->execute([':userId' => $userId]);
 
-            // Eliminar publicaciones del usuario
             $stmt = $pdo->prepare('DELETE FROM entries WHERE user_id = :userId');
             $stmt->execute([':userId' => $userId]);
 
-            // Eliminar el usuario
+            $stmt = $pdo->prepare('DELETE FROM follows WHERE user_id = :userId OR user_followed = :userId');
+            $stmt->execute([':userId' => $userId]);
+
             $stmt = $pdo->prepare('DELETE FROM users WHERE id = :userId');
             $stmt->execute([':userId' => $userId]);
 
-            // Cerrar la sesión
             session_unset();
             session_destroy();
 
-            // Redirigir a la página principal
             header('Location: /index.php');
             exit;
         } catch (Exception $e) {
-            $errors['database'] = 'Error al eliminar la cuenta. Intente más tarde.';
+            $errors['database'] = 'Error al eliminar la cuenta: ' . $e->getMessage();
         }
     } else {
         $errors['confirm'] = 'Debe marcar la casilla de confirmación para eliminar su cuenta.';
@@ -95,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <p class="error"><?= $errors['database'] ?></p>
             <?php } ?>
 
-            <form method="POST" action="/cancel.php">
+            <form method="POST" action="/back-office/cancel.php">
                 <div class="confirm">
                     <input type="checkbox" id="confirm" name="confirm">
                     <label for="confirm">Confirmo que deseo eliminar mi cuenta de forma permanente.</label>

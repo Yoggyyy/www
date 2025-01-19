@@ -8,8 +8,9 @@
  *
  * PHP version 8.1
  *
- * @category Página_Web
  * @package  SocialLink
+ * @author   Jordi Santos
+ * @version  1.0
  */
 
 // Configuración e inicio de sesión

@@ -8,12 +8,9 @@
  *
  * PHP version 8.1
  *
- * @category Página_Web
  * @package  SocialLink
  * @author   Jordi Santos
- * @license  MIT License
  * @version  1.0
- * @link     http://localhost/new.php
  */
 
 // Configuración e inicio de sesión
@@ -22,7 +19,7 @@ session_start();
 
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['user_id'])) {
-    header('Location: /login.php');
+    header('Location: /front-end/login.php');
     exit;
 }
 

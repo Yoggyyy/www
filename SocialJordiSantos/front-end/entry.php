@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Página de Detalle de Publicación.
  *
@@ -8,12 +9,9 @@
  *
  * PHP version 8.1
  *
- * @category Página_Web
  * @package  SocialLink
- * @author   Jordi
- * @license  MIT License
+ * @author   Jordi Santos
  * @version  1.0
- * @link     http://localhost/front-end/entry.php
  */
 
 // Configuración e inicio de sesión
@@ -22,7 +20,7 @@ session_start();
 
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['user_id'])) {
-    header('Location: /login.php');
+    header('Location: /front-end/login.php');
     exit;
 }
 
@@ -42,13 +40,40 @@ $comments = [];
 // Verificar y realizar acciones de "me gusta" o "no me gusta"
 if ($entryId && isset($_GET['action'])) {
     $action = $_GET['action'];
+    $userId = $_SESSION['user_id'];
+
     try {
         if ($action === 'like') {
-            $stmt = $pdo->prepare('INSERT IGNORE INTO likes (entry_id, user_id) VALUES (?, ?)');
-            $stmt->execute([$entryId, $_SESSION['user_id']]);
+            // Verificar si el usuario ya dio dislike
+            $stmt = $pdo->prepare('SELECT * FROM dislikes WHERE entry_id = :entryId AND user_id = :userId');
+            $stmt->execute([':entryId' => $entryId, ':userId' => $userId]);
+            $dislikeExists = $stmt->rowCount() > 0;
+
+            if ($dislikeExists) {
+                // Eliminar dislike existente
+                $stmt = $pdo->prepare('DELETE FROM dislikes WHERE entry_id = :entryId AND user_id = :userId');
+                $stmt->execute([':entryId' => $entryId, ':userId' => $userId]);
+            }
+
+            // Insertar like si no existe
+            $stmt = $pdo->prepare('INSERT IGNORE INTO likes (entry_id, user_id) VALUES (:entryId, :userId)');
+            $stmt->execute([':entryId' => $entryId, ':userId' => $userId]);
+
         } elseif ($action === 'dislike') {
-            $stmt = $pdo->prepare('INSERT IGNORE INTO dislikes (entry_id, user_id) VALUES (?, ?)');
-            $stmt->execute([$entryId, $_SESSION['user_id']]);
+            // Verificar si el usuario ya dio like
+            $stmt = $pdo->prepare('SELECT * FROM likes WHERE entry_id = :entryId AND user_id = :userId');
+            $stmt->execute([':entryId' => $entryId, ':userId' => $userId]);
+            $likeExists = $stmt->rowCount() > 0;
+
+            if ($likeExists) {
+                // Eliminar like existente
+                $stmt = $pdo->prepare('DELETE FROM likes WHERE entry_id = :entryId AND user_id = :userId');
+                $stmt->execute([':entryId' => $entryId, ':userId' => $userId]);
+            }
+
+            // Insertar dislike si no existe
+            $stmt = $pdo->prepare('INSERT IGNORE INTO dislikes (entry_id, user_id) VALUES (:entryId, :userId)');
+            $stmt->execute([':entryId' => $entryId, ':userId' => $userId]);
         }
     } catch (Exception $e) {
         $errors['action'] = 'No se pudo realizar la acción. Inténtalo más tarde.';
@@ -102,7 +127,7 @@ if ($entryId) {
     /**
      * Incluye la cabecera reutilizable.
      */
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/header.inc.php'); 
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/header.inc.php');
     ?>
 
     <main>
@@ -156,7 +181,7 @@ if ($entryId) {
     /**
      * Incluye el pie de página reutilizable.
      */
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/footer.inc.php'); 
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/footer.inc.php');
     ?>
 </body>
 

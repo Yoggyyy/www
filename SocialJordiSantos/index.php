@@ -86,9 +86,7 @@ if (isset($_SESSION['user_id'])) {
 
     <main>
         <?php if (!isset($_SESSION['user_id'])) { ?>
-            <!-- Vista para usuarios no autenticados -->
             <section class="welcome">
-                <h1>Bienvenido a SocialLink</h1>
                 <p>Únete a nuestra red social para compartir publicaciones, seguir amigos y comentar sus ideas.</p>
                 <h2>Regístrate ahora</h2>
                 <form method="POST" action="/index.php">
@@ -97,14 +95,13 @@ if (isset($_SESSION['user_id'])) {
                     <input type="email" name="email" placeholder="Correo electrónico" required>
                     <button type="submit">Registrarse</button>
                 </form>
-                <p>¿Ya tienes una cuenta? <a href="/login.php">Inicia sesión aquí</a>.</p>
             </section>
         <?php } else { ?>
-            <!-- Vista para usuarios autenticados -->
             <section class="dashboard">
                 <h1>Tu Tablón</h1>
                 <?php if (!empty($publications)) { ?>
                     <ul class="publications">
+                        <p><a href="/front-end/results.php">Sigue a más personas!</a></p>
                         <?php foreach ($publications as $post) { ?>
                             <li class="publication">
                                 <p><a href="/front-end/entry.php?id=<?= $post['id'] ?>"><?= $post['text'] ?></a></p>
@@ -119,7 +116,7 @@ if (isset($_SESSION['user_id'])) {
                         <?php } ?>
                     </ul>
                 <?php } else { ?>
-                    <p>Aún no hay publicaciones para mostrar. ¡Sigue a más usuarios para llenar tu tablón!</p>
+                    <p>Aún no hay publicaciones para mostrar. ¡<a href="/front-end/results.php">Sigue</a> a más usuarios para llenar tu tablón!</p>
                 <?php } ?>
             </section>
         <?php } ?>

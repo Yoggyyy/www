@@ -8,8 +8,9 @@
  *
  * PHP version 8.1
  *
- * @category Página_Web
  * @package  SocialLink
+ * @author   Jordi Santos
+ * @version  1.0
  */
 
 // Configuración e inicio de sesión
@@ -18,7 +19,7 @@ session_start();
 
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['user_id'])) {
-    header('Location: /login.php');
+    header('Location: /front-end/login.php');
     exit;
 }
 
@@ -83,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <section class="results-section">
             <h1>Resultados de Búsqueda</h1>
 
-            <form method="POST" action="/results.php">
+            <form method="POST" action="/front-end/results.php">
                 <label for="search">Buscar Usuarios</label>
                 <input type="text" id="search" name="search" value="<?= $searchQuery ?>" placeholder="Introduce un nombre o correo electrónico" required>
                 <button type="submit">Buscar</button>
