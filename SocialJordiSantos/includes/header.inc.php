@@ -1,6 +1,8 @@
 <header>
+    <div class="logo">
+    <img src="/assets/images/favicon.png" alt="logo">
     <h1><a href="/">SocialLink</a></h1>
-    
+    </div>
     <nav>
         <a href="/">Principal</a>
         <?php if (isset($_SESSION['user'])) { ?>

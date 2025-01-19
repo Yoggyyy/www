@@ -6,7 +6,7 @@
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f5f9ff; /* Azul cielo claro */
+    background-color: #f5f9ff; 
     color: #333;
 }
 
@@ -20,7 +20,7 @@ a:hover {
 }
 
 h1, h2, h3 {
-    color: #0056b3; /* Azul más oscuro */
+    color: #0056b3;
 }
 
 p {
@@ -73,6 +73,17 @@ header nav a {
 header nav a:hover {
     color: #003d80;
 }
+
+.logo img {
+    display: block; 
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-top: 10px;
+    object-fit: cover; 
+}
+
+
 
 #zonausuario {
     display: flex;

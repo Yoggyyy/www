@@ -71,7 +71,8 @@ if (isset($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Red Social</title>
+    <title>SocialLink</title>
+    <link rel="icon" href="/assets/images/favicon.png" type="image/png">
     <link rel="stylesheet" href="/assets/css/style.css"> <!-- Cambia al estilo que uses -->
 </head>
 
@@ -87,7 +88,7 @@ if (isset($_SESSION['user_id'])) {
     <main>
         <?php if (!isset($_SESSION['user_id'])) { ?>
             <section class="welcome">
-                <p>Únete a nuestra red social para compartir publicaciones, seguir amigos y comentar sus ideas.</p>
+                <p>Bienvenido Nakama únete a SocialLink para compartir con todos!.</p>
                 <h2>Regístrate ahora</h2>
                 <form method="POST" action="/index.php">
                     <input type="text" name="username" placeholder="Nombre de usuario" required>
