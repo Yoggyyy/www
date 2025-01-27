@@ -18,7 +18,9 @@ return new class extends Migration
             $table->string('plot', 150);
             $table->decimal('rating', 2, 1);
             $table->boolean('visibility');
+            $table->foreignId('director_id')->constrained();
             $table->timestamps();
+
         });
     }
 

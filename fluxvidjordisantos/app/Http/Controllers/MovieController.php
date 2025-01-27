@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Movie;
 use Illuminate\Http\Request;
-use App\Models\movie;
 
 class MovieController extends Controller
 {
@@ -12,8 +12,7 @@ class MovieController extends Controller
      */
     public function index()
     {
-        $movies = Movie::where('visibility', 1)->paginate(6);
-        return view('movies.index', compact('movies'));
+        //
     }
 
     /**
@@ -21,7 +20,7 @@ class MovieController extends Controller
      */
     public function create()
     {
-        return view('movies.create');
+        //
     }
 
     /**
@@ -35,24 +34,23 @@ class MovieController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Movie $movie)
     {
-        $movie = Movie::findOrFail($id);
-        return view('movies.show', compact('movie'));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Movie $movie)
     {
-        return view('movies.edit', compact('id'));
+        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Movie $movie)
     {
         //
     }
@@ -60,15 +58,8 @@ class MovieController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Movie $movie)
     {
-        Movie::findOrFail($id)->delete();
-        return redirect()->route('movies.index');
-    }
-
-    public function getMoviesByYear (int $year)
-    {
-        $movies = Movie::where('year', $year)->paginate(6);
-        return view('movies.byyear', compact('movies'));
+        //
     }
 }

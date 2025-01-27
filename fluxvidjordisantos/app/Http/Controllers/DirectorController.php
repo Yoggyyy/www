@@ -12,8 +12,10 @@ class DirectorController extends Controller
      */
     public function index()
     {
-        //
+        $directors = Director::paginate(5);
+        return view('directors.index', compact('directors'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -36,8 +38,10 @@ class DirectorController extends Controller
      */
     public function show(Director $director)
     {
-        //
+        $director = Director::findOrFail($director);
+        return view('directors.show', compact('director'));
     }
+
 
     /**
      * Show the form for editing the specified resource.

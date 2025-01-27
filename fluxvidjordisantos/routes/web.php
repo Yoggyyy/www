@@ -2,12 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\DirectorController;
 
 Route::get('movies/byyear/{year}', [MovieController::class, 'getMoviesByYear'])
 ->name('movies.byyear');
 
 Route::resource('movies', MovieController::class)->except([
      'update', 'store'
+]);
+
+Route::resource('directors', DirectorController::class)->except([
+    'update', 'store'
 ]);
 
 Route::get('characters', function () {

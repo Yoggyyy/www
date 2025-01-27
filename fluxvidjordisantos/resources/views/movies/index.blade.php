@@ -12,7 +12,7 @@
         <a href="{{ route('movies.show', $movie->id) }}">{{ $movie->title }}</a>
         <br>
 
-        
+
 
     @endforeach
 
