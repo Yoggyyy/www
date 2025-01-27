@@ -10,7 +10,6 @@
 </head>
 <body>
     <div>
-        gola
         @include('partials.nav')
     </div>
     <div>

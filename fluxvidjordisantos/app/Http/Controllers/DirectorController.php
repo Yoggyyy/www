@@ -38,7 +38,6 @@ class DirectorController extends Controller
      */
     public function show(Director $director)
     {
-        $director = Director::findOrFail($director);
         return view('directors.show', compact('director'));
     }
 
