@@ -10,4 +10,10 @@
 
     <section> Nacionalidad :{{ $director->nationality }}</section>
 
+    <h2>Películas dirigidas</h2>
+    @foreach ($director->movies as $movie)
+        <li>
+            <a href="{{ route('movies.show', $movie) }}">{{ $movie->title }}</a> ({{ $movie->year }})
+        </li>
+    @endforeach
 @endsection

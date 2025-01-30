@@ -12,7 +12,8 @@ class MovieController extends Controller
      */
     public function index()
     {
-        //
+        $movies = Movie::where('visibility', 1)->paginate(6);
+        return view('movies.index', compact('movies'));
     }
 
     /**
@@ -20,7 +21,7 @@ class MovieController extends Controller
      */
     public function create()
     {
-        //
+        return view('movies.create');
     }
 
     /**
@@ -36,7 +37,7 @@ class MovieController extends Controller
      */
     public function show(Movie $movie)
     {
-        //
+        return view('movies.show', compact('movie'));
     }
 
     /**
@@ -60,6 +61,13 @@ class MovieController extends Controller
      */
     public function destroy(Movie $movie)
     {
-        //
+        Movie::findOrFail($movie)->delete();
+        return redirect()->route('movies.index');
+    }
+
+    public function getMoviesByYear (int $year)
+    {
+        $movies = Movie::where('year', $year)->paginate(6);
+        return view('movies.byyear', compact('movies'));
     }
 }
