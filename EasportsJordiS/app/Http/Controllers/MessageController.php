@@ -1,0 +1,102 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Message;
+use Illuminate\Support\Facades\Auth;
+
+class MessageController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        if (Auth::user()->rol !== 'admin') {
+            abort(403, 'Acceso no autorizado');
+        }
+
+        $messages = Message::orderBy('created_at', 'desc')->get();
+        return view('messages.index', compact('messages'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('messages.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:30'],
+            'subject' => ['required', 'string', 'max:100'],
+            'text' => ['required', 'string']
+        ]);
+
+        Message::create($request->all());
+
+        return redirect()->route('contact')->with('success', 'Mensaje enviado correctamente');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Message $message)
+    {
+        if (Auth::user()->rol !== 'admin') {
+            abort(403, 'Acceso no autorizado');
+        }
+        return view('messages.show', compact('message'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Message $message)
+    {
+        if (Auth::user()->rol !== 'admin') {
+            abort(403, 'Acceso no autorizado');
+        }
+        return view('messages.edit', compact('message'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Message $message)
+    {
+        if (Auth::user()->rol !== 'admin') {
+            abort(403, 'Acceso no autorizado');
+        }
+
+        $request->validate([
+            'asunto' => ['required', 'string', 'max:100'],
+            'texto' => ['required', 'string']
+        ]);
+
+        $message->update($request->all());
+
+        return redirect()->route('messages.index')->with('success', 'Mensaje actualizado correctamente');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Message $message)
+    {
+        if (Auth::user()->rol !== 'admin') {
+            abort(403, 'Acceso no autorizado');
+        }
+
+        $message->delete();
+        return redirect()->route('messages.index')->with('success', 'Mensaje eliminado correctamente');
+    }
+}
