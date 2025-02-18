@@ -1,0 +1,940 @@
+/* ======================================= */
+/*          Misfits Gaming - Welcome    */
+/* ======================================= */
+
+/* Estilo general de la página */
+body {
+    background-color: #121212; /* Fondo oscuro para estilo gaming */
+    color: #ffffff; /* Texto en blanco para contraste */
+    font-family: 'Arial', sans-serif;
+}
+
+/* ======================================= */
+/*             Contenedor Principal        */
+/* ======================================= */
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ======================================= */
+/*               Encabezado                */
+/* ======================================= */
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #ff4655; /* Rojo Misfits */
+}
+
+/* ======================================= */
+/*               Párrafo Principal         */
+/* ======================================= */
+
+p.lead {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #dddddd;
+}
+
+
+/* ======================================= */
+/*             Responsive Design           */
+/* ======================================= */
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    p.lead {
+        font-size: 1rem;
+    }
+}
+
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Navbar principal con flexbox */
+.navbar {
+    display: flex;
+    flex-direction: column; /* Organiza en columna */
+    align-items: center;
+    justify-content: space-between;
+    background-color: #343a40; /* Color oscuro */
+    padding: 10px 20px;
+    width: 100%;
+}
+
+/* Contenedor interno con fila */
+.navbar .container {
+    display: flex;
+    flex-direction: row; /* Organiza en fila */
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Logo */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img.logo {
+    height: 50px;
+    width: auto;
+}
+
+/* Menú principal */
+.navbar-nav {
+    display: flex;
+    flex-direction: row; /* Organiza los elementos en fila */
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+
+.navbar-nav .nav-item {
+    margin: 0 15px;
+}
+
+.navbar-nav .nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #17a2b8;
+}
+
+/* Botón de cerrar sesión alineado a la derecha */
+.logout-container {
+    display: flex;
+    align-items: center;
+}
+
+.logout-container form {
+    margin: 0;
+}
+
+.btn-logout {
+    background: none;
+    border: 1px solid white;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.btn-logout:hover {
+    background: white;
+    color: black;
+}
+
+/* Segunda barra de navegación (solo admins) */
+.admin-navbar {
+    display: flex;
+    flex-direction: row; /* Organiza en fila */
+    justify-content: center;
+    background-color: #343a40; /* Gris oscuro */
+    padding: 10px 0;
+    gap: 15px;
+    width: 100%;
+}
+
+.admin-navbar .btn {
+    font-size: 1rem;
+    padding: 8px 12px;
+    background-color: white;
+    color: black;
+    border: none;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.admin-navbar .btn:hover {
+    background-color: #e2e6ea;
+}
+
+/* Responsividad */
+@media (max-width: 992px) {
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar .container {
+        flex-direction: column;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .navbar-nav .nav-item {
+        margin-bottom: 10px;
+    }
+
+    .admin-navbar {
+        flex-direction: column;
+    }
+}
+
+
+
+
+/* ====================================================== */
+/*               players.index - Misfits Gaming           */
+/* ====================================================== */
+
+.players-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas en pantallas grandes */
+    gap: 20px; /* Espaciado entre tarjetas */
+    justify-content: center;
+    padding: 20px;
+}
+
+.player-card {
+    background-color: #1a1a1a; /* Fondo oscuro */
+    color: #ffffff; /* Texto blanco */
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+    text-align: center;
+    padding-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.player-card:hover {
+    transform: scale(1.05);
+}
+
+.player-card img {
+    border-radius: 10px 10px 0 0;
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Botón "Ver Perfil" */
+.btn-profile {
+    display: inline-block;
+    width: auto;
+    margin-top: 10px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    transition: background 0.3s ease-in-out;
+    background-color: #ff4655;
+    color: white;
+    text-decoration: none;
+}
+
+.btn-profile:hover {
+    background-color: #ff2a3c;
+}
+
+/* Redes Sociales */
+.player-socials {
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.player-socials a {
+    display: inline-block;
+}
+
+.player-socials img {
+    width: 25px;
+    height: auto;
+    transition: transform 0.2s ease-in-out;
+}
+
+.player-socials a:hover img {
+    transform: scale(1.2);
+}
+
+/* Botones para Admin */
+.admin-controls {
+    margin-top: 10px;
+}
+
+.btn-danger, .btn-success {
+    width: 100%;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* ====================================================== */
+/*               Diseño Responsive con Grid              */
+/* ====================================================== */
+
+@media (max-width: 992px) {
+    .players-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablets */
+    }
+
+    .player-socials img {
+        width: 22px;
+    }
+
+    .btn-profile {
+        font-size: 14px;
+        padding: 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .players-grid {
+        grid-template-columns: repeat(1, 1fr); /* 1 columna en móviles */
+    }
+
+    .player-socials img {
+        width: 20px;
+    }
+
+    .btn-profile {
+        font-size: 12px;
+        padding: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .players-grid {
+        gap: 10px;
+    }
+
+    .player-card {
+        width: 100%;
+        padding-bottom: 10px;
+    }
+
+    .player-socials {
+        gap: 5px;
+    }
+
+    .player-socials img {
+        width: 18px;
+    }
+
+    .btn-profile {
+        font-size: 11px;
+        padding: 5px;
+    }
+}
+
+/* ====================================================== */
+/*               players.show - Misfits Gaming            */
+/* ====================================================== */
+
+.player-profile {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    color: #ffffff;
+    text-align: center;
+}
+
+/* Cabecera del Jugador */
+.player-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.player-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 4px solid #ff4655;
+    object-fit: cover;
+}
+
+.player-header h1 {
+    margin-top: 10px;
+    font-size: 2rem;
+}
+
+.player-role {
+    font-size: 1.2rem;
+    color: #ff4655;
+}
+
+/* Información del Jugador */
+.player-info {
+    background-color: #222222;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.player-info h3 {
+    border-bottom: 2px solid #ff4655;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.player-info p {
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+/* Redes Sociales */
+.player-socials {
+    margin-bottom: 20px;
+}
+
+.player-socials h3 {
+    margin-bottom: 10px;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-icons a img {
+    width: 40px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.social-icons a:hover img {
+    transform: scale(1.2);
+}
+
+/* Acciones para Admin */
+.admin-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.admin-actions .btn-warning {
+    background-color: #ffcc00;
+    border: none;
+    color: black;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out;
+}
+
+.admin-actions .btn-warning:hover {
+    background-color: #e6b800;
+}
+
+.admin-actions .btn-danger {
+    background-color: #ff4655;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out;
+}
+
+.admin-actions .btn-danger:hover {
+    background-color: #ff2a3c;
+}
+
+/* Botón Volver */
+.player-actions {
+    margin-top: 20px;
+}
+
+.player-actions .btn {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 5px;
+    background-color: #ff4655;
+    border: none;
+    color: white;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out;
+}
+
+.player-actions .btn:hover {
+    background-color: #ff2a3c;
+}
+
+/* ====================================================== */
+/*               Diseño Responsive                        */
+/* ====================================================== */
+
+@media (max-width: 768px) {
+    .player-profile {
+        padding: 20px;
+    }
+
+    .player-avatar {
+        width: 120px;
+        height: 120px;
+    }
+
+    .player-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .player-role {
+        font-size: 1rem;
+    }
+
+    .player-info h3 {
+        font-size: 1.2rem;
+    }
+
+    .social-icons img {
+        width: 35px;
+    }
+
+    .admin-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .admin-actions .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .player-profile {
+        padding: 15px;
+    }
+
+    .player-avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    .player-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .player-role {
+        font-size: 0.9rem;
+    }
+
+    .player-info h3 {
+        font-size: 1.1rem;
+    }
+
+    .social-icons img {
+        width: 30px;
+    }
+
+    .player-actions .btn {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+    }
+}
+
+/* ====================================================== */
+/*              cuenta               */
+/* ====================================================== */
+
+.user-profile {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    color: #ffffff;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(255, 70, 85, 0.2);
+}
+
+/* Imagen de usuario */
+.user-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid #ff4655;
+    object-fit: cover;
+}
+
+/* Información del usuario */
+.user-info h3 {
+    margin-top: 10px;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.user-info p {
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+/* Opciones de Administrador */
+.admin-options {
+    margin-top: 20px;
+}
+
+.admin-options h3 {
+    color: #ffcc00;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.admin-options .btn {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Botón de Cerrar Sesión */
+.user-profile form {
+    margin-top: 20px;
+}
+
+.user-profile .btn-outline-light {
+    margin-top: 10px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out;
+}
+
+.user-profile .btn-outline-light:hover {
+    background-color: #ff2a3c;
+}
+
+/* Botón de Eliminar Cuenta */
+.delete-account-form {
+    margin-top: 20px;
+}
+
+.delete-account-form .btn-danger {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 5px;
+    background-color: #ff4655;
+    border: none;
+    color: white;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out;
+}
+
+.delete-account-form .btn-danger:hover {
+    background-color: #ff2a3c;
+}
+
+
+
+/* ====================================================== */
+/*        cuenta        Diseño Responsive                 */
+/* ====================================================== */
+
+@media (max-width: 768px) {
+    .user-profile,
+    .user-edit {
+        padding: 20px;
+    }
+
+    .user-avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    .user-info h3 {
+        font-size: 1.5rem;
+    }
+
+    .user-edit label {
+        font-size: 1rem;
+    }
+
+    .user-edit input {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-profile,
+    .user-edit {
+        padding: 15px;
+    }
+
+    .user-avatar {
+        width: 80px;
+        height: 80px;
+    }
+
+    .user-info h3 {
+        font-size: 1.3rem;
+    }
+
+    .user-edit label {
+        font-size: 0.9rem;
+    }
+
+    .user-edit input {
+        font-size: 0.8rem;
+    }
+
+    .btn {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+    }
+}
+
+
+/*
+=========================================
+    events.index
+=========================================
+*/
+
+/* Grid de eventos */
+.event-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+    justify-items: center;
+}
+
+/* Estilos de cada tarjeta */
+.event-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    width: 100%;
+    max-width: 350px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    background-color: rgba(31, 30, 30, 0.479);
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-body {
+    text-align: center;
+    padding: 15px;
+}
+
+/* Títulos y textos en tarjetas */
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+/* Botones en las tarjetas */
+.card-body .btn {
+    margin: 5px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.btn-info {
+    background-color: #dc3545;
+    border: none;
+}
+
+.btn-warning {
+    background-color: #dc3545;
+    border: none;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+/* Botón "Crear Nuevo Evento" centrado */
+.text-center .btn-primary {
+    font-size: 1rem;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: #007bff;
+    border: none;
+    transition: background 0.3s;
+}
+
+.text-center .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Responsiv */
+@media (max-width: 992px) {
+    .event-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .event-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ====================================================== */
+/*            partials.footer - Misfits Gaming            */
+/* ====================================================== */
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #121212; /* Fondo negro para coherencia con la página */
+    color: #ffffff;
+    padding: 20px;
+}
+
+.Name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.Name img {
+    border-radius: 50%;
+    width: 100px;
+    height: auto;
+    margin-top: 10px;
+}
+
+/* ====================================================== */
+/*                    Contenedor Principal               */
+/* ====================================================== */
+
+.wrap-footer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Redes sociales */
+.rrss {
+    text-align: left;
+}
+
+.rrss h5 {
+    text-align: center;
+}
+
+.rrss ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.rrss li {
+    margin: 5px;
+    list-style: none;
+}
+
+.rrss img {
+    width: 40px;
+    height: auto;
+}
+
+/* ====================================================== */
+/*               Derechos de Autor y Legales             */
+/* ====================================================== */
+
+.footer-creds {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.copy-creds {
+    text-align: left;
+}
+
+.legal-creds ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.legal-creds li {
+    margin-left: 15px;
+}
+
+.legal-creds li:first-child {
+    margin-left: 0;
+}
+
+/* ====================================================== */
+/*               Enlaces Dentro del Footer               */
+/* ====================================================== */
+
+.footer a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+

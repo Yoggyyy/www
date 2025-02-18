@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Player;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PlayerController extends Controller
 {
@@ -32,13 +33,13 @@ class PlayerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Player $player)
     {
         if (Auth::user()->rol !== 'admin') {
             abort(403, 'Acceso no autorizado');
         }
 
-        $request->validate([
+        $validated = $request->validate([
             'name' => ['required', 'string', 'max:30'],
             'twitter' => ['nullable', 'string'],
             'instagram' => ['nullable', 'string'],
@@ -51,6 +52,13 @@ class PlayerController extends Controller
             'visible' => ['boolean']
         ]);
 
+        if($request->hasFile('avatar')) {
+            if($player->avatar){
+                Storage::disk('public')->delete($player->avatar);
+            }
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $validated['avatar'] = $path;
+        }
         Player::create($request->all());
 
         return redirect()->route('players.index')->with('success', 'Jugador agregado correctamente');
@@ -67,10 +75,30 @@ class PlayerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Player $player)
+    public function edit(Request $request, Player $player)
     {
         if (Auth::user()->rol !== 'admin') {
             abort(403, 'Acceso no autorizado');
+        }
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:30'],
+            'twitter' => ['nullable', 'string'],
+            'instagram' => ['nullable', 'string'],
+            'twitch' => ['nullable', 'string'],
+            'avatar' => ['nullable', 'string'],
+            'position' => ['required', 'string', 'max:20'],
+            'age' => ['required', 'integer', 'min:10'],
+            'victory' => ['required', 'string', 'max:10'],
+            'team' => ['required', 'string', 'max:20'],
+            'visible' => ['boolean']
+        ]);
+
+        if($request->hasFile('avatar')) {
+            if($player->avatar){
+                Storage::disk('public')->delete($player->avatar);
+            }
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $validated['avatar'] = $path;
         }
         return view('players.edit', compact('player'));
     }
@@ -84,7 +112,7 @@ class PlayerController extends Controller
             abort(403, 'Acceso no autorizado');
         }
 
-        $request->validate([
+        $validated = $request->validate([
             'name' => ['required', 'string', 'max:30'],
             'twitter' => ['nullable', 'string'],
             'instagram' => ['nullable', 'string'],
@@ -96,6 +124,14 @@ class PlayerController extends Controller
             'team' => ['required', 'string', 'max:20'],
             'visible' => ['boolean']
         ]);
+
+        if($request->hasFile('avatar')) {
+            if($player->avatar){
+                Storage::disk('public')->delete($player->avatar);
+            }
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $validated['avatar'] = $path;
+        }
 
         $player->update($request->all());
 
@@ -120,12 +156,32 @@ class PlayerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Player $player)
+    public function destroy(Request $request, Player $player)
     {
         if (Auth::user()->rol !== 'admin') {
             abort(403, 'Acceso no autorizado');
         }
+        
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:30'],
+            'twitter' => ['nullable', 'string'],
+            'instagram' => ['nullable', 'string'],
+            'twitch' => ['nullable', 'string'],
+            'avatar' => ['nullable', 'string'],
+            'position' => ['required', 'string', 'max:20'],
+            'age' => ['required', 'integer', 'min:10'],
+            'victory' => ['required', 'string', 'max:10'],
+            'team' => ['required', 'string', 'max:20'],
+            'visible' => ['boolean']
+        ]);
 
+        if($request->hasFile('avatar')) {
+            if($player->avatar){
+                Storage::disk('public')->delete($player->avatar);
+            }
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $validated['avatar'] = $path;
+        }
         $player->delete();
         return redirect()->route('players.index')->with('success', 'Jugador eliminado correctamente');
     }

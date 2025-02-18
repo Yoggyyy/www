@@ -11,8 +11,12 @@ class RedirectIfAuthenticatedMiddleware
 {
     public function handle(Request $request, Closure $next, ...$guards)
     {
-        if (Auth::guard()->check()) {
-            return redirect('/');
+        $guards = empty($guards) ? [null] : $guards;
+
+        foreach ($guards as $guard) {
+            if (Auth::guard($guard)->check()) {
+                return redirect('/');
+            }
         }
 
         return $next($request);

@@ -18,7 +18,7 @@ class MessageController extends Controller
             abort(403, 'Acceso no autorizado');
         }
 
-        $messages = Message::orderBy('created_at', 'desc')->get();
+        $messages = Message::latest()->get();
         return view('messages.index', compact('messages'));
     }
 

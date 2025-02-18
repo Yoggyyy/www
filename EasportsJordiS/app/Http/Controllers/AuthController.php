@@ -32,7 +32,7 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    public function showRegisterForm()
+    public function showRegister()
     {
         return view('auth.register');
     }
@@ -52,7 +52,7 @@ class AuthController extends Controller
         return back()->withErrors(['email' => 'Correo incorrecto']);
     }
 
-    public function showLoginForm()
+    public function showLogin()
     {
         return view('auth.login');
     }
@@ -87,7 +87,7 @@ class AuthController extends Controller
             'birthday' => $request->birthday ?? $user->birthday,
         ]);
 
-        $user->save(); 
+        $user->save();
 
         return response()->json(['message' => 'Perfil actualizado correctamente', 'user' => $user]);
     }
@@ -114,6 +114,11 @@ class AuthController extends Controller
         }
 
         return response()->json(['error' => 'Contraseña actual incorrecta o usuario no autenticado'], 403);
+    }
+
+    public function showAccount(Request $request)
+    {
+       return view('cuenta', ['user' => Auth::user()]);
     }
 
 

@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use User;
 
 class AdminMiddleware
 {
@@ -16,8 +17,16 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check() || Auth::user()->rol !== 'admin') {
-            abort(403, 'Acceso no autorizado');
+        // Primero verificamos si hay una sesión activa
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Debes iniciar sesión para acceder a esta página');
+        }
+
+        // Luego verificamos si el usuario es administrador
+        /** @var User */
+        $user = Auth::user();
+        if (!$user->is_admin()) {
+            return redirect()->route('home')->with('error', 'No tienes permisos para acceder a esta página');
         }
 
         return $next($request);

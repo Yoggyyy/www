@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('partials.layout')
 
 @section('content')
 <div class="container">
@@ -12,11 +12,10 @@
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title"><strong>Ubicación:</strong> {{ $event->ubicacion }}</h5>
-            <p class="card-text"><strong>Fecha:</strong> {{ $event->fecha }} - <strong>Hora:</strong> {{ $event->hora }}</p>
-            <p class="card-text"><strong>Tipo:</strong> {{ $event->tipo }}</p>
-            <p class="card-text"><strong>Etiquetas:</strong> {{ $event->etiquetas }}</p>
-            <p class="card-text"><strong>Descripción:</strong> {{ $event->descripcion }}</p>
+            <h5 class="card-title"><strong>Ubicación:</strong> {{ $event->ubication }}</h5>
+            <p class="card-text"><strong>Fecha:</strong> {{ $event->date }} - <strong>Hora:</strong> {{ $event->hora }}</p>
+            <p class="card-text"><strong>Tipo:</strong> {{ $event->type }}</p>
+            <p class="card-text"><strong>Descripción:</strong> {{ $event->description }}</p>
 
             @auth
                 <a href="{{ route('events.edit', $event->id) }}" class="btn btn-warning">Editar</a>
