@@ -23,7 +23,8 @@ class User extends Authenticatable
         'name',
         'email',
         'birthday',
-        'password'
+        'password',
+        'rol'
     ];
 
     public function likedEvents(): BelongsToMany

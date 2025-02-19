@@ -8,8 +8,6 @@ class Kernel extends HttpKernel
 {
     /**
      * The application's global HTTP middleware stack.
-     *
-     * These middleware are run during every request to your application.
      */
     protected $middleware = [
         \Illuminate\Http\Middleware\TrustHosts::class,
@@ -33,22 +31,26 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            \Illuminate\Routing\Middleware\SubstituteBindings::class, // Eliminé `SessionMiddleware` porque no es necesario en APIs
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
 
     /**
-     * The application's route middleware.
+     * The application's middleware aliases.
      */
-    protected $routeMiddleware = [
-        'auth' => \App\Http\Middleware\AuthenticateMiddleware::class,
-        //registro el middleware de admin
-        'admin' => \App\Http\Middleware\AdminMiddleware::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticatedMiddleware::class,
+    protected $middlewareAliases = [
+        'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
+        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+        'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
+        'precognitive' => \Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests::class,
+        'signed' => \App\Http\Middleware\ValidateSignature::class,
+        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
+        'CheckRole' => \App\Http\Middleware\CheckRole::class,
     ];
-    
 }
-
-
-

@@ -6,10 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up()
+    public function up(): void
     {
         Schema::create('players', function (Blueprint $table) {
             $table->id();
@@ -24,12 +21,13 @@ return new class extends Migration
             $table->string('victory', 10);
             $table->string('team', 20);
             $table->timestamps();
+
+            // Añadimos índices para mejorar el rendimiento
+            $table->index('visible');
+            $table->index(['team', 'position']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('players');

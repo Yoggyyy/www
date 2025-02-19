@@ -182,7 +182,7 @@ body {
     }
 
     .navbar .container {
-        flex-direction: column;
+        flex-direction: row;
     }
 
     .navbar-nav {
@@ -936,5 +936,3 @@ body {
 .footer a:hover {
     text-decoration: underline;
 }
-
-

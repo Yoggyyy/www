@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('messages', function (Blueprint $table) {
@@ -18,12 +15,12 @@ return new class extends Migration
             $table->text('text');
             $table->boolean('readed')->default(false);
             $table->timestamps();
+
+            // Añadimos índice para mejorar las consultas de mensajes no leídos
+            $table->index('readed');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('messages');

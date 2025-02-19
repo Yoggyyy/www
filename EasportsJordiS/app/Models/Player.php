@@ -8,5 +8,21 @@ class Player extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre', 'redes_sociales', 'avatar', 'visible'];
+    protected $fillable = [
+        'name',
+        'twitter',
+        'instagram',
+        'twitch',
+        'avatar',
+        'visible',
+        'position',
+        'age',
+        'victory',
+        'team'
+    ];
+
+    protected $casts = [
+        'age' => 'integer',
+        'visible' => 'boolean'
+    ];
 }

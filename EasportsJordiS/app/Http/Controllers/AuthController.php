@@ -10,134 +10,95 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    public function showRegisterForm()
+    {
+        if (Auth::check()) {
+            return redirect()->route('home');
+        }
+
+        return view('auth.register');
+    }
 
     public function register(Request $request)
     {
+        // Validación mejorada
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email'],
-            'password' => ['required', 'string', 'max:255'],
-            'birthday' => ['required', 'string', 'max:255']
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'birthday' => ['required', 'date', 'before:today']
         ]);
 
+        // Creación del usuario con rol por defecto
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'birthday' => $data['birthday']
+            'birthday' => $data['birthday'],
+            'rol' => 'member' // Aseguramos que el rol sea 'member' por defecto
         ]);
 
+        // Autenticamos al usuario
         Auth::login($user);
 
-        return redirect('/');
+        return redirect()->route('home')->with('success', '¡Registro completado con éxito!');
     }
 
-    public function showRegister()
+    public function showLoginForm()
     {
-        return view('auth.register');
+        if (Auth::check()) {
+            return redirect()->route('home');
+        }
+
+        return view('auth.login');
     }
+
     public function login(Request $request)
     {
+        // Validación mejorada
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required']
         ]);
 
-        if (Auth::attempt($credentials)) {
-            //Guarda en memoria la ruta anterior a la cual no tenia acceso antes identificarse
-            //Asi al inciar va directo a la pagina que no podia acceder por no estar iden
-            return redirect()->intended('/');
+        // Intento de autenticación con remember me
+        if (Auth::attempt($credentials, $request->has('remember'))) {
+            $request->session()->regenerate(); // Prevención de ataques de fijación de sesión
+
+            return redirect()->route('home')
+                ->with('success', '¡Bienvenido de nuevo!');
         }
 
-        return back()->withErrors(['email' => 'Correo incorrecto']);
+        // Si la autenticación falla
+        return back()->withErrors([
+            'email' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
+        ])->withInput($request->except('password'));
     }
 
-    public function showLogin()
-    {
-        return view('auth.login');
-    }
-
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
-        return redirect('/');
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('home')->with('success', 'Has cerrado sesión correctamente');
     }
 
-    // Actualizar perfil de usuario
-    public function updateProfile(Request $request)
+    public function showAccount()
     {
-        //Como no es tipado fuerte le especifico el tipo de out que espera
-        /** @var User */
-        $user = Auth::user();
-
-        $request->validate([
-            'name' => ['string', 'max:255'],
-            'email' => ['email', 'unique:users,email'] . Auth::id(),
-            'birthday' => ['date', 'nullable'],
-        ]);
-
-        if (!$user) {
-            return response()->json(['error' => 'Usuario no encontrado'], 404);
-        }
-
-        // Actualizar datos con fill y save
-        $user->fill([
-            'name' => $request->name ?? $user->name,
-            'email' => $request->email ?? $user->email,
-            'birthday' => $request->birthday ?? $user->birthday,
-        ]);
-
-        $user->save();
-
-        return response()->json(['message' => 'Perfil actualizado correctamente', 'user' => $user]);
+        return view('account', ['user' => Auth::user()]);
     }
 
-
-
-    // Cambiar contraseña del usuario
-    public function changePassword(Request $request)
-    {
-        //Como no es tipado fuerte le especifico el tipo de out que espera
-        /** @var User */
-        $user = Auth::user();
-
-        $request->validate([
-            'current_password' => 'required',
-            'new_password' => 'required|min:8|confirmed',
-        ]);
-
-        if ($user && Hash::check($request->current_password, $user->password)) {
-            $user->password = Hash::make($request->new_password);
-            $user->save();
-
-            return response()->json(['message' => 'Contraseña actualizada correctamente']);
-        }
-
-        return response()->json(['error' => 'Contraseña actual incorrecta o usuario no autenticado'], 403);
-    }
-
-    public function showAccount(Request $request)
-    {
-       return view('cuenta', ['user' => Auth::user()]);
-    }
-
-
-    // Eliminar cuenta del usuario
     public function deleteAccount()
     {
-        //Como no es tipado fuerte le especifico el tipo de out que espera
         /** @var User */
         $user = Auth::user();
 
-        if ($user) {
-            // Cerrar sesión antes de eliminar
-            Auth::logout();
-            // Eliminar cuenta
-            $user->delete();
+        Auth::logout();
 
-            return response()->json(['message' => 'Cuenta eliminada correctamente']);
-        }
+        $user->delete();
 
-        return response()->json(['error' => 'Usuario no encontrado'], 404);
+        return redirect()->route('home')->with('success', 'Tu cuenta ha sido eliminada correctamente');
     }
 }

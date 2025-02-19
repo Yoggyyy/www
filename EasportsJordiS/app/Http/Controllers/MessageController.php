@@ -35,15 +35,21 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:30'],
-            'subject' => ['required', 'string', 'max:100'],
-            'text' => ['required', 'string']
-        ]);
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'max:30'],
+                'subject' => ['required', 'string', 'max:100'],
+                'text' => ['required', 'string']
+            ]);
+            $request['readed'] = 0;
 
-        Message::create($request->all());
+            Message::create($request->all());
+            return redirect()->route('contact')->with('success', 'Mensaje enviado correctamente');
+        } catch (\Throwable $error) {
+            return redirect()->route('contact')->with('error', $error->getMessage());
+        }
 
-        return redirect()->route('contact')->with('success', 'Mensaje enviado correctamente');
+
     }
 
     /**
@@ -54,6 +60,12 @@ class MessageController extends Controller
         if (Auth::user()->rol !== 'admin') {
             abort(403, 'Acceso no autorizado');
         }
+
+        if (!$message->readed) {
+            $message->readed = true;
+            $message->save();
+        }
+
         return view('messages.show', compact('message'));
     }
 

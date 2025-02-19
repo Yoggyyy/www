@@ -6,70 +6,74 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\MessageController;
 
-// Autenticación de usuarios**
+// Rutas principales
+Route::view('/', 'welcome')->name('home');
+Route::get('/players', [PlayerController::class, 'index'])->name('players.index');
+Route::get('/events', [EventController::class, 'index'])->name('events.index');
+Route::view('/where', 'where')->name('where');
+
+// Rutas de autenticación
 Route::controller(AuthController::class)->group(function () {
-    // Rutas de cuenta (protegidas)
-    Route::middleware(['auth'])->group(function () {
-        Route::get('/cuenta', 'showAccount')->name('account');
-        Route::delete('/cuenta', 'deleteAccount')->name('account.delete');
+    Route::middleware('auth')->group(function () {
+        Route::get('/account', 'showAccount')->name('account');
+        Route::delete('/account', 'deleteAccount')->name('account.delete');
+        Route::post('/logout', 'logout')->name('logout');
     });
 
-    Route::get('/register', 'showRegister')->name('register');
+    Route::get('/register', 'showRegisterForm')->name('register');
     Route::post('/register', 'register');
-    Route::get('/login', 'showLogin')->name('login');
+    Route::get('/login', 'showLoginForm')->name('login');
     Route::post('/login', 'login');
-    Route::post('/logout', 'logout')->name('logout');
 });
 
-// Páginas estáticas**
-Route::view('/privacy', 'legal.privacy')->name('privacy');
-Route::view('/terms', 'legal.terms')->name('terms');
-Route::get('/where', function () {
-    return view('where');
-})->name('where');
-Route::get('/contact', function () {
-    return view('contacto');
-})->name('contact');
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+// Rutas de jugadores
+Route::controller(PlayerController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/players/create', 'create')->name('players.create');
+        Route::get('/players/{player}', 'show')->name('players.show');
+        Route::get('/players/{player}/edit', 'edit')->name('players.edit');
 
-// Rutas accesibles para todos los usuarios**
-// Eventos (solo lectura)
-Route::get('/events', [EventController::class, 'index'])->name('events.index');
-Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
+        Route::put('/players/{player}', 'update')->name('players.update');
+        Route::delete('/players/{player}', 'destroy')->name('players.destroy');
 
-// Jugadores (solo lectura)
-Route::get('/players', [PlayerController::class, 'index'])->name('players.index');
-Route::get('/players/{player}', [PlayerController::class, 'show'])->name('players.show');
+        Route::post('/players', 'store')->name('players.store');
+        Route::post('/players/{player}/visibility', 'toggleVisibility')->name('players.visibility');
+    });
 
-// Rutas protegidas para usuarios autenticados**
-Route::middleware(['auth'])->group(function () {
-    // "Me gusta" en eventos
-    Route::post('/events/{id}/like', [EventController::class, 'likeEvent'])->name('events.like');
+    Route::get('/players', 'index')->name('players.index');
 });
 
-// Rutas protegidas para administradores**
-Route::middleware(['auth', 'admin'])->group(function () {
-    // Eventos (CRUD y gestión)
-    Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
-    Route::post('/events', [EventController::class, 'store'])->name('events.store');
-    Route::get('/events/{event}/edit', [EventController::class, 'edit'])->name('events.edit');
-    Route::put('/events/{event}', [EventController::class, 'update'])->name('events.update');
-    Route::delete('/events/{event}', [EventController::class, 'destroy'])->name('events.destroy');
-    Route::patch('/events/{id}/toggle', [EventController::class, 'toggleVisibility'])->name('events.toggle');
+// Rutas de eventos
+Route::controller(EventController::class)->group(function () {
+    // Rutas protegidas para administradores
+    Route::middleware('auth')->group(function () {
+        Route::post('/events', 'store')->name('events.store');
+        Route::get('/events/create', 'create')->name('events.create');
+        Route::get('/events/{event}', 'show')->name('events.show');
+        Route::get('/events/{event}/edit', 'edit')->name('events.edit');
+        Route::put('/events/{event}', 'update')->name('events.update');
+        Route::delete('/events/{event}', 'destroy')->name('events.destroy');
 
-    // Jugadores (CRUD y visibilidad)
-    Route::get('/players/create', [PlayerController::class, 'create'])->name('players.create');
-    Route::post('/players', [PlayerController::class, 'store'])->name('players.store');
-    Route::get('/players/{player}/edit', [PlayerController::class, 'edit'])->name('players.edit');
-    Route::put('/players/{player}', [PlayerController::class, 'update'])->name('players.update');
-    Route::delete('/players/{player}', [PlayerController::class, 'destroy'])->name('players.destroy');
-    Route::patch('/players/{player}/toggle', [PlayerController::class, 'toggleVisibility'])->name('players.toggle');
+        Route::post('/events/{id}/like', 'toggleLike')->name('events.like');
+        Route::patch('/events/{id}/toggle', 'toggleVisibility')->name('event.like');
+    });
 
-    // Mensajes (solo administradores)
-    Route::get('/mensajes', [MessageController::class, 'index'])->name('messages.index');
-    Route::get('/mensajes/{id}', [MessageController::class, 'show'])->name('messages.show');
-    Route::post('/mensajes', [MessageController::class, 'store'])->name('messages.store');
-    Route::delete('/mensajes/{id}', [MessageController::class, 'destroy'])->name('messages.destroy');
+    Route::get('/events', 'index')->name('events.index');
 });
+
+
+// Rutas de mensajes
+Route::controller(MessageController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/messages', 'index')->name('messages.index');
+        Route::get('/messages/{message}', 'show')->name('messages.show');
+        Route::delete('/messages/{message}', 'destroy')->name('messages.destroy');
+    });
+
+    Route::post('/messages', 'store')->name('messages.store');
+});
+
+// Rutas legales y contacto
+Route::view('/privacy', 'privacy')->name('privacy');
+Route::view('/terms', 'terms')->name('terms');
+Route::view('/contact', 'contact')->name('contact');

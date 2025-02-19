@@ -12,6 +12,7 @@
         <p><strong>Equipo:</strong> Misfits Gaming</p>
         <p><strong>Juego:</strong> League of Legends</p>
         <p><strong>Nombre:</strong> {{ $player->name }}</p>
+        <p><strong>Visibilidad:</strong> {{ $player->visible ? 'Visible' : 'Oculto' }}</p>
     </div>
 
     <!-- Redes Sociales -->
@@ -38,11 +39,20 @@
 
     <!-- Acciones para Admin -->
     @auth
-        @if(Auth::user()->role === 'admin')
-            <div class="admin-actions">
-                <a href="{{ route('players.edit', $player->id) }}" class="btn btn-warning">Editar</a>
+        @if(auth()->user()->rol === 'admin')
+            <div class="admin-actions mt-4">
+                <h3>Acciones de Administrador</h3>
 
-                <form action="{{ route('players.destroy', $player->id) }}" method="POST" class="d-inline">
+                <!-- Toggle Visibility Form -->
+                <form action="{{ route('players.visibility', $player) }}" method="POST" class="d-inline mb-2">
+                    @csrf
+                    <button type="submit" class="btn {{ $player->visible ? 'btn-warning' : 'btn-success' }}">
+                        {{ $player->visible ? 'Ocultar' : 'Mostrar' }}
+                    </button>
+                </form>
+
+                <!-- Delete Form -->
+                <form action="{{ route('players.destroy', $player) }}" method="POST" class="d-inline ml-2">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este jugador?')">Eliminar</button>
@@ -52,11 +62,8 @@
     @endauth
 
     <!-- Botón Volver -->
-    <div class="player-actions">
-        <a href="{{ route('players.index') }}" class="btn btn-outline-light">Volver a la Lista</a>
+    <div class="player-actions mt-4">
+        <a href="{{ route('players.index') }}" class="btn btn-outline-secondary">Volver a la Lista</a>
     </div>
 </div>
 @endsection
-
-
-
