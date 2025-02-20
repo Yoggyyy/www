@@ -26,9 +26,9 @@ class PlayerController extends Controller
      */
     public function create()
     {
-        // if (Auth::user()->rol !== 'admin') {
-        //     abort(403, 'Acceso no autorizado');
-        // }
+         if (Auth::user()->rol !== 'admin') {
+             abort(403, 'Acceso no autorizado');
+         }
         return view('players.create');
     }
 

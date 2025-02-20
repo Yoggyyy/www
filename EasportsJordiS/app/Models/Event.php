@@ -27,12 +27,13 @@ class Event extends Model
         'visible' => 'boolean'
     ];
 
+    // Relación muchos a muchos
     public function usersWhoLiked(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'event_user')->withTimestamps();
     }
 
-    public function likes()
+    public function likes(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'event_user', 'event_id', 'user_id');
     }

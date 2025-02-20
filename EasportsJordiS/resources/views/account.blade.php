@@ -120,8 +120,14 @@
                     <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">
                         <i class="bi bi-x-circle me-2"></i>Cancelar
                     </button>
-                    <button type="submit" form="deleteAccountForm" class="btn btn-danger px-4">
-                        <i class="bi bi-trash me-2"></i>Eliminar Cuenta
+                    <form action="{{ route('account.delete') }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger w-100"
+                            onclick="return confirm('¿Estás seguro de eliminar esta cuenta?')">
+                            <i class="bi bi-trash me-2"></i>Eliminar Cuenta
+                        </button>
+                    </form>
                     </button>
                 </div>
             </div>

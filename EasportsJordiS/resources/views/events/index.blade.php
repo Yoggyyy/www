@@ -4,13 +4,6 @@
     <div class="container py-4">
         <h1 class="mb-4 text-center text-light">Lista de Eventos</h1>
 
-        @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-
         @auth
             @if (auth()->user()->rol === 'admin')
                 <div class="mb-3 text-center">

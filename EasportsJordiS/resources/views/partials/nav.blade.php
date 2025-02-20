@@ -22,28 +22,28 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::currentRouteName() == 'events.index' ? 'active' : '' }}"
+                    <a class="nav-link "
                         href="{{ route('events.index') }}">
                         <i class="bi bi-calendar-event me-1"></i>Eventos
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::currentRouteName() == 'players.index' ? 'active' : '' }}"
+                    <a class="nav-link "
                         href="{{ route('players.index') }}">
                         <i class="bi bi-people me-1"></i>Jugadores
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::currentRouteName() == 'contact' ? 'active' : '' }}"
+                    <a class="nav-link "
                         href="{{ route('contact') }}">
                         <i class="bi bi-envelope me-1"></i>Contacto
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::currentRouteName() == 'where' ? 'active' : '' }}"
+                    <a class="nav-link "
                         href="{{ route('where') }}">
                         <i class="bi bi-geo-alt me-1"></i>Dónde Estamos
                     </a>
@@ -53,6 +53,7 @@
             <!-- Botones de autenticación -->
             <div class="ms-auto d-flex align-items-end gap-2">
                 <div class="ms-auto d-flex align-items-center gap-2">
+                    <!-- Con Guest muestro cosas si no tienen rol -->
                     @guest
                         <!-- Botones para usuarios no autenticados -->
                         <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm">

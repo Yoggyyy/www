@@ -44,29 +44,5 @@
             </div>
         </div>
     </div>
-
-    <div class="row mt-4">
-        <!-- Configuración del Sistema -->
-        <div class="col-md-6">
-            <div class="card text-bg-secondary">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Configuración</h5>
-                    <p class="card-text">Administra ajustes del sistema.</p>
-                    <a href="{{ route('settings.index') }}" class="btn btn-light">Ir a Configuración</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Gestión de Usuarios -->
-        <div class="col-md-6">
-            <div class="card text-bg-danger">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Gestión de Usuarios</h5>
-                    <p class="card-text">Gestiona cuentas y roles de usuarios.</p>
-                    <a href="{{ route('users.index') }}" class="btn btn-light">Ir a Usuarios</a>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 @endsection

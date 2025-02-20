@@ -21,6 +21,7 @@ class Message extends Model
         'readed' => 'boolean'
     ];
 
+    // Relación uno a muchos 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

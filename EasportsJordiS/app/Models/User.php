@@ -27,16 +27,6 @@ class User extends Authenticatable
         'rol'
     ];
 
-    public function likedEvents(): BelongsToMany
-    {
-        return $this->belongsToMany(Event::class, 'event_user')->withTimestamps();
-    }
-
-    public function messages(): HasMany
-    {
-        return $this->hasMany(Message::class);
-    }
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -58,5 +48,17 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Relación muchos a muchos
+    public function likedEvents(): BelongsToMany
+    {
+        return $this->belongsToMany(Event::class, 'event_user')->withTimestamps();
+    }
+
+    // Relación uno a muchos
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class);
     }
 }

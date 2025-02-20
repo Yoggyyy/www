@@ -35,7 +35,8 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'birthday' => $data['birthday'],
-            'rol' => 'member' // Aseguramos que el rol sea 'member' por defecto
+            // Aseguramos que el rol sea 'member' por defecto
+            'rol' => 'member'
         ]);
 
         // Autenticamos al usuario
@@ -63,7 +64,7 @@ class AuthController extends Controller
 
         // Intento de autenticación con remember me
         if (Auth::attempt($credentials, $request->has('remember'))) {
-            $request->session()->regenerate(); // Prevención de ataques de fijación de sesión
+            $request->session()->regenerate();
 
             return redirect()->route('home')
                 ->with('success', '¡Bienvenido de nuevo!');
